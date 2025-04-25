@@ -1,0 +1,121 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+}
+
+/* Navbar */
+.navbar-wrapper {
+  width: 100vw;
+  background-color: #1e1e2f;
+  display: flex;
+  justify-content: center;
+  position: sticky; /* makes it stick when scrolling */
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px 32px;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: -100px;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -100px;
+  gap: 30px;
+  
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+  color: #00c8ff;
+}
+
+/* Main Content */
+.main-content {
+  max-width: 1200px;
+  margin: 100px auto 0 auto; /* Added top margin for spacing from navbar */
+  padding: 40px 20px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Contests */
+.contests h2 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  margin-left: 10px;
+}
+
+.contest-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.contest-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.contest-card:hover {
+  transform: translateY(-4px);
+}
+
+.contest-card h3 {
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.contest-card p {
+  margin: 6px 0;
+  font-size: 14px;
+}
