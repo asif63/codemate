@@ -35,6 +35,43 @@ body, html {
   padding: 16px 32px;
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+  color: white;
+}
+
+.dropdown-label {
+  cursor: pointer;
+  padding: 8px;
+  color: inherit;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: gray;
+  min-width: 200px;
+  z-index: 1;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 10px;
+  display: block;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: black;
+}
+
+
 .logo {
   color: #ffffff;
   font-size: 24px;
@@ -98,7 +135,7 @@ body, html {
 }
 
 .contest-card {
-  background-color: white;
+  background-color:white;
   padding: 20px;
   border-radius: 12px;
   border: 1px solid #ddd;
@@ -118,4 +155,62 @@ body, html {
 .contest-card p {
   margin: 6px 0;
   font-size: 14px;
+}
+
+/* Dark Mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .navbar-wrapper {
+  background-color: #1e1e2f;
+}
+
+body.dark-mode .logo {
+  color: #ffffff;
+}
+
+body.dark-mode .nav-links a {
+  color: #ffffff;
+}
+
+body.dark-mode .nav-links a:hover {
+  color: #00c8ff;
+}
+
+body.dark-mode .main-content {
+  background-color: #121212;
+}
+
+body.dark-mode .hero p {
+  color: #bbbbbb;
+}
+
+body.dark-mode .contest-card {
+  background-color: #1e1e2f;
+  border: 1px solid #333;
+  color: #ffffff;
+}
+
+body.dark-mode .contest-card h3 {
+  color: #ffffff;
+}
+
+/* Dark mode button */
+.dark-mode-toggle {
+  background-color: transparent;
+  border: 2px solid #00c8ff;
+  color: #00c8ff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #00c8ff;
+  color: #ffffff;
 }

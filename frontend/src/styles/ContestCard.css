@@ -11,7 +11,7 @@
     margin-right: 20px;
   }
   .contest-card:hover { transform: translateY(-4px); }
-  .contest-card h3 { margin: 0 0 10px; color: #333; }
+  .contest-card h3 { margin: 0 0 10px; color:#333; }
   .contest-card p { margin: 6px 0; font-size: 14px; }
   .contest-card a {
     display: inline-block;

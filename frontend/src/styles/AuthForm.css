@@ -1,0 +1,121 @@
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f5f6fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Black horizontal bar */
+.top-bar {
+  background-color: black;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Back arrow in top-left corner */
+.back-arrow {
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
+}
+
+/* App name in the center */
+.brand-title {
+  color: white;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+/* Wraps form and centers it */
+.form-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  margin : 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sign-up form box */
+.auth-form {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #333;
+  color: white;
+}
+
+.auth-form input::placeholder {
+  color: #ccc;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #5a4bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.auth-form button:hover {
+  background-color: #3f36d2;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+
+}
+/* Responsive styles */
