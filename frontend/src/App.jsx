@@ -6,6 +6,8 @@ import CPTopics from './pages/CPTopics';
 import TopicDetail from './pages/TopicDetail';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
         <Route path="/topics/:slug" element={<TopicDetail />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

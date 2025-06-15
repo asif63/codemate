@@ -4,6 +4,9 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import statsRouter from './routes/stats.js';
+
+
 
 dotenv.config();
 
@@ -12,6 +15,7 @@ const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/stats', statsRouter);
 
 // Signup Route
 app.post("/api/signup", async (req, res) => {
