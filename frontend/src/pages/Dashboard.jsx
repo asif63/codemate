@@ -1,140 +1,154 @@
-import Problems from '../pages/Problems';
+// src/pages/Dashboard.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  CartesianGrid, Legend
+  BarChart, Bar, XAxis, YAxis, Tooltip,
+  CartesianGrid, ResponsiveContainer, Legend
 } from 'recharts';
+import Problems from './Problems'; // will receive platform prop
 import '../styles/Dashboard.css';
 
-const Dashboard = () => {
+export default function Dashboard() {
+  const [platform, setPlatform] = useState('codeforces');
   const [username, setUsername] = useState('');
   const [tagData, setTagData] = useState([]);
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
-  const handleFetchStats = async () => {
+  const handleFetch = async () => {
     if (!username.trim()) {
-      setError('Please enter a Codeforces username.');
-      setTagData([]);
+      setError('Enter a username');
       return;
     }
-    setIsLoading(true);
     setError('');
+    setLoading(true);
     setTagData([]);
-
     try {
-      const response = await axios.get(`http://localhost:5000/api/stats/codeforces/${username}`);
-      const tags = response.data.tags;
-      if (Object.keys(tags).length === 0) {
-        setError(`No data found for user "${username}" or user has no tagged problems solved.`);
-        setTagData([]);
+      const res = await fetch(
+        `http://localhost:5000/api/stats/${platform}/${username}`
+      );
+      const data = await res.json();
+      if (!res.ok || !data.tags) {
+        setError('No data found.');
       } else {
-        const data = Object.entries(tags)
-          .map(([tag, count]) => ({ tag, count }))
-          .sort((a, b) => b.count - a.count);
-        setTagData(data);
+        const arr = Object.entries(data.tags)
+          .map(([tag,count]) => ({ tag, count }))
+          .sort((a,b)=>b.count-a.count);
+        setTagData(arr);
       }
-    } catch (err) {
-      console.error('Error fetching stats:', err);
-      if (err.response && err.response.status === 404) {
-        setError(`Codeforces user "${username}" not found.`);
-      } else {
-        setError('Error fetching stats. The API might be down or username is invalid.');
-      }
-      setTagData([]);
-    } finally {
-      setIsLoading(false);
+    } catch {
+      setError('Fetch error');
     }
+    setLoading(false);
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="custom-tooltip">
-          <p className="tooltip-label">{`${label}`}</p>
-          <p className="tooltip-value">{`Solved: ${payload[0].value}`}</p>
-        </div>
-      );
-    }
-    return null;
-  };
+  // derived stats
+  const total = tagData.reduce((s,t)=>s+t.count,0);
+  const unique = tagData.length;
+  const top  = unique? tagData[0].tag : '–';
+
+  const stats = [
+    { title: 'Total Solved', value: total },
+    { title: 'Unique Tags', value: unique },
+    { title: 'Top Tag',     value: top    }
+  ];
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard">
       {/* Header */}
       <header className="dashboard-header">
-        <h1>Codemate</h1>
-        <div className="profile-container">
-          <img
-            src="https://ui-avatars.com/api/?name=User&background=4a90e2&color=fff&rounded=true"
-            alt="Profile"
-            className="profile-icon"
-            onClick={() => setShowDropdown(!showDropdown)}
+        <div className="logo">CodeMate</div>
+        <nav className="nav-links">
+          <Link to="/dashboard"   className="active">Dashboard</Link>
+          <Link to="/contests">Contests</Link>
+          <Link to="/problems">Problems</Link>
+          <Link to="/topics">Topics</Link>
+        </nav>
+        <div className="user-wrapper">
+          <FaUserCircle
+            className="user-icon"
+            size={28}
+            onClick={()=>setShowMenu(!showMenu)}
           />
-          {showDropdown && (
-            <div className="dropdown-menu">
-              <button onClick={() => alert("View Profile clicked")}>View Profile</button>
-              <button onClick={() => alert("Update Password clicked")}>Update Password</button>
-              <button onClick={() => alert("Settings clicked")}>Settings</button>
-              <button onClick={() => alert("Logout clicked")}>Logout</button>
+          {showMenu && (
+            <div className="user-dropdown">
+              <Link to="/profile">View Profile</Link>
+              <Link to="/settings">Settings</Link>
+              <button onClick={()=>alert('Logging out')}>
+                Logout <FaSignOutAlt />
+              </button>
             </div>
           )}
         </div>
       </header>
 
-      {/* Search Card */}
-      <section className="dashboard-card">
-        <h2 className="dashboard-card-header">Search Competitive Profile</h2>
-        <div className="search-input-group">
-          <input
-            type="text"
-            placeholder="Enter Codeforces Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleFetchStats()}
-          />
-          <button onClick={handleFetchStats} disabled={isLoading}>
-            {isLoading ? 'Fetching...' : 'Fetch Stats'}
-          </button>
-        </div>
-        {error && <p className="error-message">{error}</p>}
-      </section>
+      {/* Main */}
+      <main className="dashboard-main">
+        {/* Stats */}
+        <section className="stats-grid">
+          {stats.map(s => (
+            <div key={s.title} className="stat-card">
+              <h3>{s.title}</h3>
+              <p>{s.value}</p>
+            </div>
+          ))}
+        </section>
 
-      {/* Chart Section */}
-      {(tagData.length > 0 || isLoading) && (
-        <section className="dashboard-card chart-container">
-          <h2 className="dashboard-card-header">Problem Tag Breakdown for {username}</h2>
-          {isLoading && <p className="no-data-message">Loading chart data...</p>}
-          {!isLoading && tagData.length > 0 && (
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={tagData} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#3a3a3a" />
-                <XAxis dataKey="tag" stroke="#a0a0a0" tick={{ fontSize: 11 }} interval={0} />
-                <YAxis stroke="#a0a0a0" allowDecimals={false} />
-                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(74, 144, 226, 0.1)' }} />
-                <Legend wrapperStyle={{ color: '#a0a0a0', paddingTop: '10px' }} />
-                <Bar dataKey="count" fill="#4ade80" radius={[4, 4, 0, 0]} barSize={30} />
+        {/* Search */}
+        <section className="card search-card">
+          <h2>Fetch Profile Stats</h2>
+          <div className="search-group">
+            <select
+              value={platform}
+              onChange={e=>setPlatform(e.target.value)}
+            >
+              <option value="codeforces">Codeforces</option>
+              <option value="codechef">CodeChef</option>
+              <option value="leetcode">LeetCode</option>
+            </select>
+            <input
+              type="text"
+              placeholder={`Username on ${platform}`}
+              value={username}
+              onChange={e=>setUsername(e.target.value)}
+              onKeyPress={e=>e.key==='Enter'&&handleFetch()}
+            />
+            <button onClick={handleFetch} disabled={loading}>
+              {loading?'Loading…':'Fetch'}
+            </button>
+          </div>
+          {error && <p className="error-text">{error}</p>}
+        </section>
+
+        {/* Chart */}
+        {(!loading && tagData.length>0) && (
+          <section className="card chart-card">
+            <h2>Tag Breakdown</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={tagData} margin={{top:20, right:30, left:20, bottom:5}}>
+                <CartesianGrid stroke="#333" strokeDasharray="3 3"/>
+                <XAxis dataKey="tag" stroke="#aaa" tick={{fontSize:12}}/>
+                <YAxis stroke="#aaa" allowDecimals={false}/>
+                <Tooltip/>
+                <Legend />
+                <Bar dataKey="count" fill="#4a90e2" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer>
-          )}
-          {!isLoading && tagData.length === 0 && !error && (
-            <p className="no-data-message">No tag data to display for this user.</p>
-          )}
+          </section>
+        )}
+
+        {/* Problems (filtered by platform) */}
+        <section className="card problems-card">
+          <h2>Practice Problems ({platform})</h2>
+          <Problems platform={platform}/>
         </section>
-      )}
+      </main>
 
-      {/* Problems Section */}
-      <Problems />
-
-      {/* Footer */}
       <footer className="dashboard-footer">
-        © {new Date().getFullYear()} Codemate. Inspired by LeetCode UI.
+        © {new Date().getFullYear()} CodeMate
       </footer>
-      
     </div>
   );
-};
-
-export default Dashboard;
+}

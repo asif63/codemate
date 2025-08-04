@@ -7,6 +7,10 @@ import TopicDetail from './pages/TopicDetail';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Contests from './pages/Contests';
+import Problems from './pages/Problems';
+import Profile from './pages/Profile';
+import Settings from './pages/Settings';
 
 
 function App() {
@@ -20,6 +24,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/contests"  element={<Contests />} />
+        <Route path="/problems"  element={<Problems />} />
+        <Route path="/profile"   element={<Profile />} />
+        <Route path="/settings"  element={<Settings />} />
       </Routes>
     </Router>
   );

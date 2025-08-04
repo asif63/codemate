@@ -1,3 +1,5 @@
+/* src/styles/Home.css */
+
 /* Reset and base styles */
 * {
   margin: 0;
@@ -10,19 +12,21 @@ body, html {
   min-height: 100%;
   overflow-x: hidden;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f7fa;
+  background-color: #ffffff; /* Pure white for light mode */
   color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Navbar */
 .navbar-wrapper {
-  width: 100vw;
+  width: 100%;
   background-color: #1e1e2f;
   display: flex;
   justify-content: center;
-  position: sticky; /* makes it stick when scrolling */
+  position: sticky;
   top: 0;
   z-index: 1000;
+  transition: background-color 0.3s ease;
 }
 
 .navbar {
@@ -35,6 +39,7 @@ body, html {
   padding: 16px 32px;
 }
 
+/* Dropdown styling */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -53,7 +58,10 @@ body, html {
   background-color: gray;
   min-width: 200px;
   z-index: 1;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
 }
 
 .dropdown:hover .dropdown-content {
@@ -61,16 +69,17 @@ body, html {
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 10px;
+  color: #333;
+  padding: 12px 16px;
   display: block;
   text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-content a:hover {
   background-color: black;
+  color: #1e1e2f;
 }
-
 
 .logo {
   color: #ffffff;
@@ -82,16 +91,15 @@ body, html {
 .nav-links {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   margin-right: -100px;
   gap: 30px;
-  
 }
 
 .nav-links a {
   color: #ffffff;
   text-decoration: none;
   font-size: 16px;
-  
   transition: color 0.2s ease-in-out;
 }
 
@@ -102,7 +110,7 @@ body, html {
 /* Main Content */
 .main-content {
   max-width: 1200px;
-  margin: 100px auto 0 auto; /* Added top margin for spacing from navbar */
+  margin: 100px auto 0 auto;
   padding: 40px 20px;
 }
 
@@ -118,7 +126,7 @@ body, html {
 
 .hero p {
   font-size: 18px;
-  color: #666;
+  color: #444; /* Changed to slightly darker gray for better visibility */
 }
 
 /* Contests */
@@ -135,12 +143,12 @@ body, html {
 }
 
 .contest-card {
-  background-color:white;
+  background-color: white;
   padding: 20px;
   border-radius: 12px;
   border: 1px solid #ddd;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
+  transition: transform 0.2s, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .contest-card:hover {
@@ -155,46 +163,7 @@ body, html {
 .contest-card p {
   margin: 6px 0;
   font-size: 14px;
-}
-
-/* Dark Mode styles */
-body.dark-mode {
-  background-color: #121212;
-  color: #ffffff;
-}
-
-body.dark-mode .navbar-wrapper {
-  background-color: #1e1e2f;
-}
-
-body.dark-mode .logo {
-  color: #ffffff;
-}
-
-body.dark-mode .nav-links a {
-  color: #ffffff;
-}
-
-body.dark-mode .nav-links a:hover {
-  color: #00c8ff;
-}
-
-body.dark-mode .main-content {
-  background-color: #121212;
-}
-
-body.dark-mode .hero p {
-  color: #bbbbbb;
-}
-
-body.dark-mode .contest-card {
-  background-color: #1e1e2f;
-  border: 1px solid #333;
-  color: #ffffff;
-}
-
-body.dark-mode .contest-card h3 {
-  color: #ffffff;
+  color: #555;
 }
 
 /* Dark mode button */
@@ -213,4 +182,74 @@ body.dark-mode .contest-card h3 {
 .dark-mode-toggle:hover {
   background-color: #00c8ff;
   color: #ffffff;
+}
+
+/* ================================== */
+/* ✅ DARK MODE STYLES               */
+/* ================================== */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .navbar-wrapper {
+  background-color: #1e1e2f;
+  border-bottom: 1px solid #2a2a3a;
+}
+
+body.dark-mode .dropdown-content {
+  background-color: #2a2a3a;
+  border: 1px solid #444;
+}
+
+body.dark-mode .dropdown-content a {
+  color: #e0e0e0;
+}
+
+body.dark-mode .dropdown-content a:hover {
+  background-color: #00c8ff;
+  color: #1e1e2f;
+}
+
+body.dark-mode .hero h1,
+body.dark-mode .contests h2 {
+  color: #ffffff;
+}
+
+body.dark-mode .hero p {
+  color: #bbbbbb;
+}
+
+body.dark-mode .contest-card {
+  background-color: #1e1e2f;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
+body.dark-mode .contest-card h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .contest-card p {
+  color: inherit;
+}
+
+/* ================================== */
+/* ✅ FORCED LIGHT MODE OVERRIDES    */
+/* ================================== */
+
+body:not(.dark-mode) {
+  background-color: #ffffff !important;
+  color: #333 !important;
+}
+
+body:not(.dark-mode) .contest-card {
+  background-color: lightgray !important;
+  color: #333 !important;
+  border-color: #ddd !important;
+}
+
+body:not(.dark-mode) .hero p,
+body:not(.dark-mode) .contests h2 {
+  color: #444 !important;
 }

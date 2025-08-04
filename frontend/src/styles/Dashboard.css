@@ -1,184 +1,196 @@
-body {
-  background-color: #1a1a1a;
-  color: #eff1f3;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  min-height: 100%;
+/* Dashboard.css */
+
+/* Root */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #111;
+  color: #eee;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.dashboard-container {
-  padding: 2rem;
-  width: 214vh;
-  
-  margin: 0 auto;
-}
-
+/* Header */
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #3a3a3a;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
 }
-
-.dashboard-header h1 {
+.logo {
   font-size: 1.75rem;
-  color: #eff1f3;
-  font-weight: 600;
+  color: #4a90e2;
+}
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-bottom .2s;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: #4a90e2;
+  border-bottom: 2px solid #4a90e2;
 }
 
-.profile-container {
+/* User menu */
+.user-wrapper {
   position: relative;
 }
-
-.profile-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+.user-icon {
   cursor: pointer;
-  border: 2px solid #4a90e2;
-  transition: transform 0.2s ease;
+  color: #ccc;
+  transition: color .2s;
 }
+.user-icon:hover { color: #4a90e2; }
 
-.profile-icon:hover {
-  transform: scale(1.05);
-}
-
-.dropdown-menu {
+.user-dropdown {
   position: absolute;
-  top: 50px;
+  top: 110%;
   right: 0;
-  background-color: #262626;
-  border: 1px solid #3a3a3a;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  min-width: 180px;
-  padding: 0.5rem 0;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  overflow: hidden;
+  z-index: 10;
 }
-
-.dropdown-menu button {
+.user-dropdown a,
+.user-dropdown button {
   display: block;
   width: 100%;
   padding: 0.75rem 1rem;
+  color: #eee;
+  text-decoration: none;
   background: none;
-  color: #eff1f3;
   border: none;
   text-align: left;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background .2s;
+}
+.user-dropdown a:hover,
+.user-dropdown button:hover {
+  background: #333;
 }
 
-.dropdown-menu button:hover {
-  background-color: #3a3a3a;
-}
-
-/* Card styling */
-.dashboard-card {
-  background-color: #262626;
-  padding: 1.5rem 2rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.dashboard-card-header {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #f0f0f0;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid #3a3a3a;
-  padding-bottom: 0.75rem;
-}
-
-.search-input-group {
+/* Main content */
+.dashboard-main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 1.5rem;
+}
+.stat-card {
+  background: #222;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform .2s, box-shadow .2s;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+.stat-card h3 { color: #aaa; }
+.stat-card p  { font-size: 1.5rem; font-weight: bold; }
+
+/* Card base */
+.card {
+  background: #222;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* Search card */
+.search-card h2 { margin-bottom: 1rem; }
+.search-group {
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
 }
-
-.search-input-group input[type="text"] {
-  flex-grow: 1;
+.search-group select,
+.search-group input {
   padding: 0.75rem 1rem;
-  background-color: #1e1e1e;
-  color: #eff1f3;
-  border: 1px solid #3a3a3a;
+  border: 1px solid #333;
   border-radius: 6px;
+  background: #111;
+  color: #eee;
   font-size: 1rem;
+  /* fixed width for input so it won't grow */
+  width: 200px;
+  max-width: 100%;
+  transition: border .2s, box-shadow .2s;
+}
+.search-group input:focus,
+.search-group select:focus {
   outline: none;
-}
-
-.search-input-group input[type="text"]:focus {
   border-color: #4a90e2;
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+  box-shadow: 0 0 0 2px rgba(74,144,226,0.3);
 }
-
-.search-input-group button {
+.search-group button {
   padding: 0.75rem 1.5rem;
-  background-color: #00b8a3;
-  color: #ffffff;
+  background: #4a90e2;
+  color: #fff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: background-color 0.2s ease;
+  transition: background .2s;
+}
+.search-group button:hover {
+  background: #357ab8;
+}
+.error-text {
+  margin-top: 0.75rem;
+  color: #ff6b6b;
 }
 
-.search-input-group button:hover {
-  background-color: #009a88;
-}
-
-.error-message {
-  color: #ff7070;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-}
-
-.custom-tooltip {
-  background-color: #333333;
-  padding: 10px;
-  border: 1px solid #555555;
-  border-radius: 4px;
-  color: #eff1f3;
-}
-
-.tooltip-label {
-  margin: 0;
-  font-weight: bold;
-}
-
-.tooltip-value {
-  margin: 0;
-}
-
-.chart-container .recharts-wrapper .recharts-cartesian-axis-tick-value tspan {
-  fill: #a0a0a0;
-}
-
-.chart-container .recharts-wrapper .recharts-label {
-  fill: #a0a0a0;
-}
-
-.chart-container .recharts-wrapper .recharts-cartesian-grid-line {
-  stroke: #3a3a3a;
-}
-
-.no-data-message {
-  color: #888888;
+/* Chart card */
+.chart-card h2 { margin-bottom: 1rem; }
+.loading-text,
+.no-data-text {
   text-align: center;
-  padding: 2rem 0;
+  color: #888;
 }
 
+/* Problems */
+.problems-card h2 { margin-bottom: 1rem; }
+
+/* Footer */
 .dashboard-footer {
   text-align: center;
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #3a3a3a;
-  font-size: 0.85rem;
-  color: #888888;
+  padding: 1rem 0;
+  border-top: 1px solid #333;
+  color: #888;
 }
 
-
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,90 +1,215 @@
-/* src/styles/CPTopics.css */
+/* ================================
+   CPTopics.css  (scoped + safe)
+   ================================ */
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+
+:root {
+  --bg-light: #f5f7fa;
+  --text-light: #333;
+  --card-light: #fff;
+  --card-border-light: rgba(0,0,0,.08);
+  --header-light: #eef3ff;
+  --header-hover-light: #e2e9ff;
+  --link-light: #0069d9;
+
+  --bg-dark: #121212;
+  --text-dark: #e0e0e0;
+  --card-dark: #1e1e2f;
+  --card-border-dark: #333;
+  --header-dark: #2a2a3b;
+  --content-dark: #202030;
+  --link-dark: #00c8ff;
+}
+
+/* ---------- Page wrapper ---------- */
 .cp-topics-page {
-    padding: 60px 20px;
-    max-width: 900px;
-    margin: 0 auto;
-    font-family: sans-serif;
+  padding: 80px 20px 100px;
+  max-width: 960px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text-light);
+  transition: color .3s, background-color .3s;
+  background: var(--bg-light);
 }
 
+/* If you placed CPTopics inside another container, ensure its bg shows full width */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Title */
 .cp-topics-page h1 {
-    text-align: center;
-    font-size: 36px;
-    margin-bottom: 40px;
-    color: #333;
+  text-align: center;
+  font-size: clamp(28px, 5vw, 40px);
+  margin-bottom: 48px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: #222;
 }
 
+/* ---------- Topics list ---------- */
 .topics-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
+/* Cards */
 .topic-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background: white;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
+  border: 1px solid var(--card-border-light);
+  border-radius: 14px;
+  background: var(--card-light);
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,.05);
+  transition: box-shadow .25s, transform .25s;
+  will-change: transform, box-shadow;
+}
+.topic-card:hover {
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  transform: translateY(-2px);
 }
 
+/* Header (accordion button) */
 .topic-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    cursor: pointer;
-    font-size: 18px;
-    background-color: #f0f4ff;
-    font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  cursor: pointer;
+  font-size: 18px;
+  background: var(--header-light);
+  font-weight: 600;
+  border: none;
+  outline: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color .25s;
+}
+.topic-header:hover { background-color: var(--header-hover-light); }
+.topic-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #2b2b2b;
+}
+.topic-header span {
+  font-size: 26px;
+  line-height: 1;
+  color: #4b4b4b;
+  transition: transform .25s;
 }
 
-.topic-header:hover {
-    background-color: #e4ebff;
-}
-
+/* Content (accordion body) */
 .topic-content {
-    padding: 15px 25px;
-    background-color: #fafafa;
-    list-style: disc;
-    color: #444;
+  padding: 0 28px;
+  background: #fafafa;
+  list-style: disc;
+  color: #444;
+  line-height: 1.55;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease, padding-top .3s ease, padding-bottom .3s ease, background-color .3s;
+}
+
+/* since you mount/unmount in React, this selector executes on rendered block */
+.topic-card .topic-content {
+  max-height: 800px; /* big enough; adjust if needed */
+  padding-top: 16px;
+  padding-bottom: 24px;
 }
 
 .topic-content li {
-    margin: 6px 0;
+  margin: 6px 0;
+  font-size: 15.5px;
 }
-
 .topic-content a {
-    color: #007bff;
-    text-decoration: underline;
+  color: var(--link-light);
+  text-decoration: underline;
+  word-break: break-all;
 }
 
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-    .cp-topics-page {
-        background-color: #121212;
-    }
+/* ---------- Optional: CPTopics navbar (scope to avoid leaking) ---------- */
+/* Only add these if CPTopics.jsx has its own navbar with these classes.    */
+.cpt-nav-wrapper {
+  width: 100%;
+  background-color: #1e1e2f;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.cpt-nav {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+}
+.cpt-logo {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+}
+.cpt-links {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.cpt-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.2s ease-in-out;
+}
+.cpt-links a:hover { color: #00c8ff; }
 
-    .cp-topics-page h1 {
-        color: #eee;
-    }
+/* ---------- Dark Mode ---------- */
+body.dark-mode .cp-topics-page {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+body.dark-mode .cp-topics-page h1 {
+  color: #eee;
+}
+body.dark-mode .topic-card {
+  background: var(--card-dark);
+  border: 1px solid var(--card-border-dark);
+  box-shadow: 0 6px 20px rgba(0,0,0,.35);
+}
+body.dark-mode .topic-card:hover {
+  box-shadow: 0 10px 28px rgba(0,0,0,.45);
+}
+body.dark-mode .topic-header {
+  background: var(--header-dark);
+  color: #f0f0f0;
+}
+body.dark-mode .topic-header h2 { color: #f0f0f0; }
+body.dark-mode .topic-header span { color: #ccc; }
+body.dark-mode .topic-content {
+  background: var(--content-dark);
+  color: #ddd;
+}
+body.dark-mode .topic-content a {
+  color: var(--link-dark);
+}
 
-    .topic-card {
-        background: #1e1e2f;
-        border: 1px solid #444;
-    }
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+  .topic-header { padding: 16px 18px; }
+  .topic-content { padding: 0 22px; }
+}
 
-    .topic-header {
-        background-color: #2a2a3b;
-        color: #f0f0f0;
-    }
-
-    .topic-content {
-        background-color: #202030;
-        color: #ddd;
-    }
-
-    .topic-content a {
-        color: #00c8ff;
-    }
+/* Custom scrollbar inside topic content */
+.topic-content::-webkit-scrollbar {
+  width: 6px;
+}
+.topic-content::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2);
+  border-radius: 3px;
+}
+body.dark-mode .topic-content::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.2);
 }

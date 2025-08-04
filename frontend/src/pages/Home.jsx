@@ -7,18 +7,40 @@ import ContestCard from "../pages/ContestCard";
 
 export default function Home() {
   const [cards, setCards] = useState([]);
-  const [darkMode, setDarkMode] = useState(false); // ✅ New state for Dark Mode
+
+  // ✅ --- START: IMPROVED DARK MODE LOGIC ---
+
+  // Function to get the initial theme preference
+  const getInitialMode = () => {
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode !== null) {
+      return JSON.parse(savedMode);
+    }
+    // If no saved mode, check system preference
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
+
+  const [darkMode, setDarkMode] = useState(getInitialMode);
 
   useEffect(() => {
+    // Apply the class to the body
     if (darkMode) {
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
     }
+    // Save the user's preference to localStorage
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
 
+  const toggleDarkMode = () => {
+    setDarkMode(prevMode => !prevMode);
+  };
+
+  // ✅ --- END: IMPROVED DARK MODE LOGIC ---
+
   useEffect(() => {
-    // Your existing API code unchanged
+    // Your existing API fetching code remains unchanged
     const cf = axios
       .get("https://codeforces.com/api/contest.list")
       .then((res) =>
@@ -82,10 +104,6 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
     <div className="home">
       <header className="navbar-wrapper">
@@ -98,13 +116,23 @@ export default function Home() {
               <span className="dropdown-label">CP Topics ▼</span>
               <div className="dropdown-content">
                 <Link to="/topics/dp">Dynamic Programming</Link>
-                <Link to="/topics/graphs">Graphs</Link>
-                <Link to="/topics/greedy">Greedy Algorithms</Link>
+    <Link to="/topics/graphs">Graphs</Link>
+    <Link to="/topics/greedy">Greedy Algorithms</Link>
+    <Link to="/topics/trees-lca">Trees & LCA</Link>
+    <Link to="/topics/segtree">Segment Tree / Fenwick Tree</Link>
+    <Link to="/topics/search">Binary & Ternary Search</Link>
+    <Link to="/topics/bitmask">Bit Manipulation / Bitmask DP</Link>
+    <Link to="/topics/number-theory">Number Theory</Link>
+    <Link to="/topics/strings">String Algorithms</Link>
+    <Link to="/topics/geometry">Computational Geometry</Link>
+    <Link to="/topics/flow">Flow & Matching</Link>
+    <Link to="/topics/advanced-ds">Advanced Data Structures</Link>
+    <Link to="/topics/game-theory">Game Theory</Link>
+    <Link to="/topics/probability">Probability & Expected Value</Link>
+    <Link to="/topics/misc">Misc / Tricks</Link>
               </div>
             </div>
-
             <Link to="/contact">Contact</Link>
-            {/* ✅ Dark mode toggle button */}
             <button onClick={toggleDarkMode} className="dark-mode-toggle">
               {darkMode ? "☀️ Light" : "🌙 Dark"}
             </button>
