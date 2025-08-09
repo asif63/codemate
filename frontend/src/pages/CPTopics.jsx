@@ -1,5 +1,7 @@
 // src/pages/CPTopics.jsx
 import React, { useState } from 'react';
+import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import '../styles/CPTopics.css';
 
 const topics = [
@@ -163,49 +165,83 @@ const topics = [
 ];
 
 export default function CPTopics() {
+  const navigate = useNavigate();
   const [openIndex, setOpenIndex] = useState(null);
 
-  const toggleTopic = (index) => {
+  const toggleTopic = (index) =>
     setOpenIndex(openIndex === index ? null : index);
-  };
 
   return (
-    <div className="cp-topics-page">
-      <h1>Competitive Programming Topics</h1>
-      <div className="topics-list">
-        {topics.map((topic, index) => (
-          <div className="topic-card" key={index}>
-            <div className="topic-header" onClick={() => toggleTopic(index)}>
-              <h2>{topic.name}</h2>
-              <span>{openIndex === index ? '-' : '+'}</span>
-            </div>
-            {openIndex === index && (
-              <ul className="topic-content">
-                {topic.content.map((item, i) => (
-                  <li key={i}>
-                    {item.startsWith('Resources:')
-                      ? (
-                        <>
+    <>
+      {/* Centered brand + back arrow */}
+      <header className="cm-topbar">
+        <button
+          className="cm-back"
+          onClick={() => navigate(-1)}
+          aria-label="Go back"
+          title="Go back"
+        >
+          <FaArrowLeft />
+        </button>
+        <div className="cm-brand">CodeMate</div>
+        <div className="cm-right-spacer" />
+      </header>
+
+      <div className="cp-topics-page">
+        <h1>Competitive Programming Topics</h1>
+
+        <div className="topics-list">
+          {topics.map((topic, index) => (
+            <div
+              key={index}
+              className={`topic-card ${openIndex === index ? 'open' : ''}`}
+            >
+              <button
+                className="topic-header"
+                onClick={() => toggleTopic(index)}
+                aria-expanded={openIndex === index}
+                aria-controls={`panel-${index}`}
+              >
+                <h2>{topic.name}</h2>
+                <span className="chev" aria-hidden>›</span>
+              </button>
+
+              {openIndex === index && (
+                <ul
+                  id={`panel-${index}`}
+                  className="topic-content"
+                  role="region"
+                  aria-label={`${topic.name} details`}
+                >
+                  {topic.content.map((item, i) => {
+                    if (item.startsWith('Resources:')) {
+                      const url = item.replace('Resources: ', '');
+                      return (
+                        <li key={i}>
                           Resources:{' '}
-                          <a
-                            href={item.replace('Resources: ', '')}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {item.replace('Resources: ', '')}
+                          <a href={url} target="_blank" rel="noopener noreferrer">
+                            {url}
                           </a>
-                        </>
-                      )
-                      : item.startsWith('http')
-                        ? <a href={item} target="_blank" rel="noopener noreferrer">{item}</a>
-                        : item}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
+                        </li>
+                      );
+                    }
+                    if (item.startsWith('http')) {
+                      return (
+                        <li key={i}>
+                          <a href={item} target="_blank" rel="noopener noreferrer">
+                            {item}
+                          </a>
+                        </li>
+                      );
+                    }
+                    return <li key={i}>{item}</li>;
+                  })}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

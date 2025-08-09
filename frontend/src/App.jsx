@@ -8,10 +8,11 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Contests from './pages/Contests';
-import Problems from './pages/Problems';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 
+// ✅ Use the full Problems page (tabs/filters), not the small dashboard widget
+import ProblemsPage from './pages/ProblemsPage';
 
 function App() {
   return (
@@ -24,10 +25,11 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/contests"  element={<Contests />} />
-        <Route path="/problems"  element={<Problems />} />
-        <Route path="/profile"   element={<Profile />} />
-        <Route path="/settings"  element={<Settings />} />
+        <Route path="/contests" element={<Contests />} />
+        {/* ✅ Route /problems to the new ProblemsPage */}
+        <Route path="/problems" element={<ProblemsPage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
   );

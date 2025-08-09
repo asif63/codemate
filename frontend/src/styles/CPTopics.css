@@ -1,215 +1,163 @@
 /* ================================
-   CPTopics.css  (scoped + safe)
+   CPTopics.css — refreshed
    ================================ */
 
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
 
-:root {
-  --bg-light: #f5f7fa;
-  --text-light: #333;
-  --card-light: #fff;
-  --card-border-light: rgba(0,0,0,.08);
-  --header-light: #eef3ff;
-  --header-hover-light: #e2e9ff;
-  --link-light: #0069d9;
+:root{
+  --bg: #f6f8fc;
+  --ink: #1d1f23;
+  --muted: #60646c;
 
-  --bg-dark: #121212;
-  --text-dark: #e0e0e0;
-  --card-dark: #1e1e2f;
-  --card-border-dark: #333;
-  --header-dark: #2a2a3b;
-  --content-dark: #202030;
-  --link-dark: #00c8ff;
+  --card: #fff;
+  --card-border: rgba(0,0,0,.08);
+  --card-ring: #4a90e2;
+
+  --header: #f0f4ff;
+  --header-hover: #e6edff;
+
+  --pill-bg: #eef3ff;
+  --pill-ink:#2b2b2b;
+
+  --link:#0a66ff;
 }
 
-/* ---------- Page wrapper ---------- */
-.cp-topics-page {
-  padding: 80px 20px 100px;
-  max-width: 960px;
-  margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
-  color: var(--text-light);
-  transition: color .3s, background-color .3s;
-  background: var(--bg-light);
+body.dark-mode :root { /* no-op hook for IDEs */ }
+
+/* Page */
+.cp-topics-page{
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #e9f1ff 0%, transparent 60%),
+    radial-gradient(800px 400px at 90% -20%, #ffe9f2 0%, transparent 55%),
+    var(--bg);
+  min-height: 100vh;
+  padding: 72px 20px 96px;
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* If you placed CPTopics inside another container, ensure its bg shows full width */
-html, body {
-  overflow-x: hidden;
-}
-
-/* Title */
-.cp-topics-page h1 {
+.cp-topics-page h1{
   text-align: center;
-  font-size: clamp(28px, 5vw, 40px);
-  margin-bottom: 48px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  color: #222;
+  font-weight: 800;
+  letter-spacing: .2px;
+  font-size: clamp(28px, 3.8vw, 42px);
+  margin: 0 0 32px;
 }
 
-/* ---------- Topics list ---------- */
-.topics-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+/* ---------- List ---------- */
+.topics-list{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
 }
 
-/* Cards */
-.topic-card {
-  border: 1px solid var(--card-border-light);
-  border-radius: 14px;
-  background: var(--card-light);
+/* Card */
+.topic-card{
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0,0,0,.05);
-  transition: box-shadow .25s, transform .25s;
-  will-change: transform, box-shadow;
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
-.topic-card:hover {
-  box-shadow: 0 10px 24px rgba(0,0,0,.08);
-  transform: translateY(-2px);
-}
+.topic-card:hover{ transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0,0,0,.08); }
+.topic-card.open{ border-color: color-mix(in srgb, var(--card-ring) 55%, #fff); box-shadow: 0 14px 32px rgba(74,144,226,.18); }
 
-/* Header (accordion button) */
-.topic-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 24px;
-  cursor: pointer;
-  font-size: 18px;
-  background: var(--header-light);
-  font-weight: 600;
-  border: none;
-  outline: none;
+/* Header (button) */
+.topic-header{
+  appearance: none;
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 22px;
+  background: var(--header);
+  border: 0;
+  cursor: pointer;
   text-align: left;
-  transition: background-color .25s;
+  transition: background .2s ease;
 }
-.topic-header:hover { background-color: var(--header-hover-light); }
-.topic-header h2 {
+.topic-header:hover{ background: var(--header-hover); }
+.topic-header h2{
   margin: 0;
   font-size: 18px;
-  color: #2b2b2b;
+  font-weight: 700;
+  color: var(--pill-ink);
+  letter-spacing: .3px;
 }
-.topic-header span {
-  font-size: 26px;
-  line-height: 1;
-  color: #4b4b4b;
-  transition: transform .25s;
+.topic-header .chev{
+  width: 22px; height: 22px;
+  display: inline-grid; place-items: center;
+  border-radius: 50%;
+  background: var(--pill-bg);
+  color: #394867;
+  font-weight: 700;
+  transition: transform .2s ease, background .2s ease;
+}
+.topic-card.open .topic-header .chev{ transform: rotate(90deg); }
+
+/* Content */
+.topic-content{
+  background: #fafbff;
+  padding: 16px 24px 22px;
+  color: #2a2e35;
+  line-height: 1.6;
+}
+.topic-content li{ margin: 8px 0; font-size: 15.5px; }
+.topic-content li::marker{ color: #99a7ff; }
+.topic-content a{
+  color: var(--link);
+  text-underline-offset: 3px;
 }
 
-/* Content (accordion body) */
-.topic-content {
-  padding: 0 28px;
-  background: #fafafa;
-  list-style: disc;
-  color: #444;
-  line-height: 1.55;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .4s ease, padding-top .3s ease, padding-bottom .3s ease, background-color .3s;
+/* “Resource pill” look when an item is just a label + link */
+.topic-content a[href^="http"]{
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #eef4ff;
+  border: 1px solid #dfe8ff;
+  color: #2b4fff;
 }
 
-/* since you mount/unmount in React, this selector executes on rendered block */
-.topic-card .topic-content {
-  max-height: 800px; /* big enough; adjust if needed */
-  padding-top: 16px;
-  padding-bottom: 24px;
+/* ---------- Dark mode ---------- */
+body.dark-mode .cp-topics-page{
+  --bg: #0f1115;
+  --ink:#e8eaee;
+  --muted:#a7abb3;
+  --card:#171a21;
+  --card-border:#2a2e37;
+  --card-ring:#79b1ff;
+  --header:#1c2230;
+  --header-hover:#20283a;
+  --pill-bg:#242b3b;
+  --pill-ink:#f3f6ff;
+  --link:#83c8ff;
+
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #0f1a2b 0%, transparent 60%),
+    radial-gradient(800px 400px at 90% -20%, #1c0f1b 0%, transparent 55%),
+    var(--bg);
 }
 
-.topic-content li {
-  margin: 6px 0;
-  font-size: 15.5px;
-}
-.topic-content a {
-  color: var(--link-light);
-  text-decoration: underline;
-  word-break: break-all;
-}
-
-/* ---------- Optional: CPTopics navbar (scope to avoid leaking) ---------- */
-/* Only add these if CPTopics.jsx has its own navbar with these classes.    */
-.cpt-nav-wrapper {
-  width: 100%;
-  background-color: #1e1e2f;
-  display: flex;
-  justify-content: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-.cpt-nav {
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 32px;
-}
-.cpt-logo {
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: bold;
-}
-.cpt-links {
-  display: flex;
-  gap: 30px;
-  align-items: center;
-}
-.cpt-links a {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 16px;
-  transition: color 0.2s ease-in-out;
-}
-.cpt-links a:hover { color: #00c8ff; }
-
-/* ---------- Dark Mode ---------- */
-body.dark-mode .cp-topics-page {
-  background: var(--bg-dark);
-  color: var(--text-dark);
-}
-body.dark-mode .cp-topics-page h1 {
-  color: #eee;
-}
-body.dark-mode .topic-card {
-  background: var(--card-dark);
-  border: 1px solid var(--card-border-dark);
-  box-shadow: 0 6px 20px rgba(0,0,0,.35);
-}
-body.dark-mode .topic-card:hover {
-  box-shadow: 0 10px 28px rgba(0,0,0,.45);
-}
-body.dark-mode .topic-header {
-  background: var(--header-dark);
-  color: #f0f0f0;
-}
-body.dark-mode .topic-header h2 { color: #f0f0f0; }
-body.dark-mode .topic-header span { color: #ccc; }
-body.dark-mode .topic-content {
-  background: var(--content-dark);
-  color: #ddd;
-}
-body.dark-mode .topic-content a {
-  color: var(--link-dark);
+body.dark-mode .topic-content{ background: #141824; }
+body.dark-mode .topic-content a[href^="http"]{
+  background:#141c2b; border-color:#22324e; color:#a8d3ff;
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 560px) {
-  .topic-header { padding: 16px 18px; }
-  .topic-content { padding: 0 22px; }
+@media (min-width: 920px){
+  .topics-list{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px){
+  .topic-header{ padding: 16px 18px; }
+  .topic-content{ padding: 14px 18px 18px; }
 }
 
-/* Custom scrollbar inside topic content */
-.topic-content::-webkit-scrollbar {
-  width: 6px;
-}
-.topic-content::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,.2);
-  border-radius: 3px;
-}
-body.dark-mode .topic-content::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,.2);
+/* Focus (a11y) */
+.topic-header:focus-visible{
+  outline: 3px solid color-mix(in srgb, var(--card-ring) 70%, #fff);
+  outline-offset: 2px;
+  border-radius: 12px;
 }

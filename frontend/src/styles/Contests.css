@@ -1,0 +1,125 @@
+/* ---------- Top bar (center brand + back arrow) ---------- */
+.cm-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: 56px 1fr 56px; /* left/back | center/brand | right/spacer */
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+.cm-back {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: #eaeaea;
+  border: 1px solid #333;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.cm-back:hover {
+  background: #222;
+  border-color: #4a90e2;
+  color: #fff;
+}
+
+.cm-brand {
+  justify-self: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #eaeaea;
+  letter-spacing: .2px;
+}
+.cm-right-spacer { /* empty cell to keep center alignment */ }
+
+/* ---------- Page container ---------- */
+.contests-page {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem 3rem;
+  color: inherit;
+}
+
+/* Header/controls inside page */
+.contests-header h1 {
+  font-size: clamp(28px, 4vw, 36px);
+  margin-bottom: .25rem;
+}
+.contests-header .muted {
+  color: #9aa0a6;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.platforms {
+  display: flex;
+  gap: 16px;
+}
+.platforms label {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  user-select: none;
+}
+
+.search {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #111;
+  color: #eee;
+  min-width: 240px;
+}
+.search:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74,144,226,.25);
+}
+
+/* Grid of contest cards */
+.contest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.contest-wrap {
+  position: relative;
+}
+.contest-wrap .pill {
+  position: absolute;
+  top: 8px; left: 12px;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #2a2a2a;
+  color: #ddd;
+  z-index: 2;
+  pointer-events: none;
+}
+.contest-wrap.cf .pill { background: #243a73; }
+.contest-wrap.cc .pill { background: #5a2a27; }
+.contest-wrap.lc .pill { background: #1f3d2d; }
+
+/* States */
+.loading, .empty {
+  padding: 2rem 0;
+  color: #9aa0a6;
+  text-align: center;
+}
