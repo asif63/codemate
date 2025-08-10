@@ -5,7 +5,6 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip,
   CartesianGrid, ResponsiveContainer, Legend
 } from 'recharts';
-import Problems from './ProblemsWidget';
 import '../styles/Dashboard.css';
 
 export default function Dashboard() {
@@ -19,12 +18,24 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [showMenu, setShowMenu] = useState(false);
-  const menuRef = useRef(null);
+  // theme
+  const getInitialDark = () => {
+    const saved = localStorage.getItem('darkMode');
+    if (saved !== null) return JSON.parse(saved);
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+  };
+  const [isDark, setIsDark] = useState(getInitialDark);
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDark);
+    localStorage.setItem('darkMode', JSON.stringify(isDark));
+  }, [isDark]);
 
+  // menu
+  const [showMenu, setShowMenu] = useState(false);
+  const actionsRef = useRef(null);
   useEffect(() => {
     const onClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (actionsRef.current && !actionsRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -41,23 +52,18 @@ export default function Dashboard() {
 
   const handleFetch = async () => {
     if (!username.trim()) { setError('Enter a username'); return; }
-    setError('');
-    setLoading(true);
-    setTagData([]);
-    setTotalSolved(0);
-    setRating(null);
+    setError(''); setLoading(true);
+    setTagData([]); setTotalSolved(0); setRating(null);
 
     try {
       const res = await fetch(`http://localhost:5000/api/stats/${platform}/${username}`);
       const data = await res.json();
-
       if (!res.ok || !data.tags) {
         setError('No data found.');
       } else {
         const arr = Object.entries(data.tags)
           .map(([tag, count]) => ({ tag, count }))
           .sort((a, b) => b.count - a.count);
-
         setTagData(arr);
         setTotalSolved(data.totalSolved || 0);
         setRating(data.rating ?? 'N/A');
@@ -66,7 +72,6 @@ export default function Dashboard() {
       console.error('Fetch error:', err);
       setError('Fetch error');
     }
-
     setLoading(false);
   };
 
@@ -89,7 +94,17 @@ export default function Dashboard() {
           <Link to="/topics">Topics</Link>
         </nav>
 
-        <div className="user-wrapper" ref={menuRef}>
+        {/* Theme toggle + user menu */}
+        <div className="header-actions" ref={actionsRef}>
+          <button
+            className="theme-btn"
+            onClick={() => setIsDark(d => !d)}
+            title="Toggle theme"
+            aria-label="Toggle theme"
+          >
+            <span>{isDark ? '🌙' : '🌞'}</span>
+          </button>
+
           <button
             className="user-button"
             aria-haspopup="menu"
@@ -148,9 +163,9 @@ export default function Dashboard() {
             <h2>Tag Breakdown</h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={tagData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid stroke="#333" strokeDasharray="3 3" />
-                <XAxis dataKey="tag" stroke="#aaa" tick={{ fontSize: 12 }} />
-                <YAxis stroke="#aaa" allowDecimals={false} />
+                <CartesianGrid stroke="var(--chartGrid)" strokeDasharray="3 3" />
+                <XAxis dataKey="tag" stroke="var(--muted)" tick={{ fontSize: 12 }} />
+                <YAxis stroke="var(--muted)" allowDecimals={false} />
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="count" fill="#4a90e2" radius={[4, 4, 0, 0]} />
@@ -158,11 +173,6 @@ export default function Dashboard() {
             </ResponsiveContainer>
           </section>
         )}
-
-        <section className="card problems-card">
-          <h2>Practice Problems ({platform})</h2>
-          <Problems platform={platform} />
-        </section>
       </main>
 
       <footer className="dashboard-footer">

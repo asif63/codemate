@@ -200,13 +200,14 @@ const topics = [
   },
 ];
 
+
+
 export default function TopicDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const topic = topics.find(t => t.slug === slug);
 
-  const topic = topics.find((t) => t.slug === slug);
-
-  // dark mode sync with site
+  // theme
   const getInitialMode = () => {
     const saved = localStorage.getItem('darkMode');
     if (saved !== null) return JSON.parse(saved);
@@ -218,31 +219,19 @@ export default function TopicDetail() {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
-  // Label + URL renderer (same idea as CPTopics)
   const renderPoint = (text) => {
     if (text.startsWith('Resources:')) {
       const url = text.replace('Resources: ', '').trim();
-      return (
-        <>
-          Resources:{' '}
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            {url}
-          </a>
-        </>
-      );
+      return <>Resources: <a href={url} target="_blank" rel="noopener noreferrer">{url}</a></>;
     }
     const i = text.indexOf('http');
     if (i !== -1) {
       const label = text.slice(0, i).trim().replace(/[:\-–]+$/, '');
       const url = text.slice(i).trim();
-      return (
-        <>
-          {label ? <strong>{label}:</strong> : null}{' '}
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            {url}
-          </a>
-        </>
-      );
+      return <>
+        {label ? <strong>{label}:</strong> : null}{' '}
+        <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+      </>;
     }
     return text;
   };
@@ -252,41 +241,41 @@ export default function TopicDetail() {
       <div className="topic-detail-root">
         <div className="empty-state">
           <h2>Topic not found</h2>
-          <Link to="/topics" className="btn-link">
-            Back to all topics
-          </Link>
+          <Link to="/topics" className="btn-link">Back to all topics</Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="topic-detail-root">
-      <header className="td-navbar">
-        <button className="td-back" onClick={() => navigate(-1)}>
-          ← Back
-        </button>
-        <span className="td-title">CodeMate</span>
-        <button className="td-toggle" onClick={() => setDarkMode((d) => !d)}>
-          {darkMode ? '☀️ Light' : '🌙 Dark'}
-        </button>
-      </header>
+    <>
+      <div className="topic-detail-root">
+        <header className="td-navbar">
+          <button className="td-back" onClick={() => navigate(-1)}>← Back</button>
+          <span className="td-title">CodeMate</span>
+          <button
+            className="td-theme-btn"
+            onClick={() => setDarkMode(d => !d)}
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
+            <span>{darkMode ? '🌙' : '🌞'}</span>
+          </button>
+        </header>
 
-      <main className="topic-detail-page">
-        <h1>{topic.name}</h1>
+        <main className="topic-detail-page">
+          <h1>{topic.name}</h1>
+          <ul className="point-list">
+            {topic.points.map((p, i) => <li key={i}>{renderPoint(p)}</li>)}
+          </ul>
+          <div className="detail-actions">
+            <Link to="/topics" className="btn-link">← Back to all topics</Link>
+          </div>
+        </main>
+      </div>
 
-        <ul className="point-list">
-          {topic.points.map((p, i) => (
-            <li key={i}>{renderPoint(p)}</li>
-          ))}
-        </ul>
-
-        <div className="detail-actions">
-          <Link to="/topics" className="btn-link">
-            ← Back to all topics
-          </Link>
-        </div>
-      </main>
-    </div>
+      <footer className="topic-footer">© {new Date().getFullYear()} CodeMate</footer>
+    </>
   );
 }
+

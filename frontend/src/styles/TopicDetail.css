@@ -14,8 +14,7 @@ html, body { width: 100%; height: 100%; }
   position: sticky; top: 0; z-index: 20;
   display: grid;
   grid-template-columns: 120px 1fr 120px;
-  align-items: center;
-  gap: 8px;
+  align-items: center; gap: 8px;
   padding: 12px 18px;
   background: #141a24;
   border-bottom: 1px solid #202838;
@@ -25,22 +24,30 @@ html, body { width: 100%; height: 100%; }
   justify-self: center;
   font-weight: 800; letter-spacing: .2px;
 }
-.td-back, .td-toggle{
+.td-back{
   justify-self: start;
   padding: 8px 12px;
   background: transparent;
   border: 1px solid #2b3b57;
   color: #b9d2ff;
-  border-radius: 10px;
-  cursor: pointer;
+  border-radius: 10px; cursor: pointer;
   transition: background .2s, border-color .2s, color .2s;
 }
-.td-toggle{ justify-self: end; }
-.td-back:hover, .td-toggle:hover{
-  background: #1b2435; border-color: #4a90e2; color: #eaf0ff;
-}
+.td-back:hover{ background:#1b2435; border-color:#4a90e2; color:#eaf0ff; }
 
-/* Main */
+/* theme button (match other pages) */
+.td-theme-btn{
+  justify-self: end;
+  width:40px; height:40px;
+  display:flex; align-items:center; justify-content:center;
+  padding:0; line-height:1; font-size:18px;
+  background: rgba(255,255,255,.06);
+  color:#eaeaea; border:1px solid #2b3b57;
+  border-radius:10px; cursor:pointer;
+}
+.td-theme-btn span{ line-height:1; transform: translateY(-1px); }
+
+/* Main content */
 .topic-detail-page{
   max-width: 980px;
   margin: 38px auto 96px;
@@ -85,11 +92,21 @@ html, body { width: 100%; height: 100%; }
 }
 .btn-link:hover{ text-decoration: underline; }
 
+/* Footer */
+.topic-footer{
+  text-align: center;
+  padding: 1rem 0 2rem;
+  border-top: 1px solid #202838;
+  color: #9aa0a6;
+  background: transparent;
+}
+
 /* Dark mode */
 body.dark-mode .topic-detail-root{ background: #0f1115; color: #e8eaee; }
 body.dark-mode .td-navbar{ background:#0f141d; border-bottom-color:#202838; }
-body.dark-mode .td-back, body.dark-mode .td-toggle{ border-color:#2b3b57; color:#a9c8ff; }
-body.dark-mode .td-back:hover, body.dark-mode .td-toggle:hover{ background:#162032; color:#dfe9ff; }
+body.dark-mode .td-back{ border-color:#2b3b57; color:#a9c8ff; }
+body.dark-mode .td-back:hover{ background:#162032; color:#dfe9ff; }
+body.dark-mode .td-theme-btn{ background:#1a2232; border-color:#2b3b57; color:#eaeaea; }
 body.dark-mode .point-list{ color:#dfe3ea; }
 body.dark-mode .point-list a{ color:#83c8ff; }
 body.dark-mode .point-list a[href^="http"]{ background:#141c2b; border-color:#22324e; color:#a8d3ff; }

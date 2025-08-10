@@ -1,10 +1,52 @@
+/* ---------- Theme variables ---------- */
+:root {
+  --bg: #9db596;
+  --text: #222;
+  --brand: #4a90e2;
+
+  --headerBg: #e3efd9;
+  --headerBorder: #e6e6e6;
+
+  --navLink: #555;
+  --navActive: #4a90e2;
+
+  --card: #babb9f;
+  --cardBorder: #e6e6e6;
+
+  --muted: black;
+  --inputBg: #ffffff;
+  --inputBorder: #ccc;
+
+  --chartGrid: #e5e5e5;
+}
+body.dark-mode {
+  --bg: #111;
+  --text: #eee;
+  --brand: #4a90e2;
+
+  --headerBg: #1a1a1a;
+  --headerBorder: #333;
+
+  --navLink: #ccc;
+  --navActive: #4a90e2;
+
+  --card: #222;
+  --cardBorder: #333;
+
+  --muted: #aaa;
+  --inputBg: #111;
+  --inputBorder: #333;
+
+  --chartGrid: #333;
+}
+
 /* Root */
 .dashboard {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #111;
-  color: #eee;
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -14,13 +56,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: #1a1a1a;
-  border-bottom: 1px solid #333;
+  background: var(--headerBg);
+  border-bottom: 1px solid var(--headerBorder);
 }
 
-/* Dashboard-scoped brand & nav to avoid Home.css collisions */
+/* Brand & nav */
 .dash-logo {
-  color: #4a90e2;
+  color: var(--brand);
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0;
@@ -32,7 +74,7 @@
   gap: 1.5rem;
 }
 .dash-nav a {
-  color: #ccc;
+  color: var(--navLink);
   text-decoration: none;
   padding-bottom: 0.25rem;
   border-bottom: 2px solid transparent;
@@ -40,30 +82,52 @@
 }
 .dash-nav a:hover,
 .dash-nav a.active {
-  color: #4a90e2;
-  border-bottom: 2px solid #4a90e2;
+  color: var(--navActive);
+  border-bottom: 2px solid var(--navActive);
 }
 
+/* Right actions (theme + user menu) */
+.header-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.theme-btn {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; line-height: 1; font-size: 18px;
+  background: rgba(0,0,0,0.05);
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  cursor: pointer;
+}
+body.dark-mode .theme-btn {
+  background: #222;
+  border-color: #444;
+}
+.theme-btn span { line-height: 1; transform: translateY(-1px); }
+
 /* User menu */
-.user-wrapper { position: relative; }
 .user-button {
   background: transparent;
   border: 0;
   padding: 0;
   cursor: pointer;
 }
-.user-icon { color: #ccc; transition: color .2s; }
-.user-button:hover .user-icon { color: #4a90e2; }
+.user-icon { color: var(--navLink); transition: color .2s; }
+.user-button:hover .user-icon { color: var(--navActive); }
 
 .user-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: #222;
-  border: 1px solid #333;
+  background: var(--card);
+  border: 1px solid var(--cardBorder);
   border-radius: 8px;
   min-width: 180px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
   overflow: hidden;
   z-index: 1000;
 }
@@ -74,12 +138,13 @@
   padding: 0.75rem 1rem;
   background: none;
   border: none;
-  color: #eee;
+  color: var(--text);
   font-size: 0.95rem;
   cursor: pointer;
   transition: background .2s;
 }
-.user-dropdown button:hover { background: #333; }
+.user-dropdown button:hover { background: rgba(0,0,0,0.08); }
+body.dark-mode .user-dropdown button:hover { background: #333; }
 
 /* Main content */
 .dashboard-main {
@@ -99,7 +164,8 @@
   gap: 1.5rem;
 }
 .stat-card {
-  background: #222;
+  background: var(--card);
+  border: 1px solid var(--cardBorder);
   padding: 1.5rem;
   border-radius: 8px;
   text-align: center;
@@ -107,17 +173,18 @@
 }
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
-.stat-card h3 { color: #aaa; }
+.stat-card h3 { color: var(--muted); }
 .stat-card p  { font-size: 1.5rem; font-weight: bold; }
 
 /* Card base */
 .card {
-  background: #222;
+  background: var(--card);
+  border: 1px solid var(--cardBorder);
   border-radius: 8px;
   padding: 1.5rem 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 /* Search card */
@@ -131,10 +198,10 @@
 .search-group select,
 .search-group input {
   padding: 0.75rem 1rem;
-  border: 1px solid #333;
+  border: 1px solid var(--inputBorder);
   border-radius: 6px;
-  background: #111;
-  color: #eee;
+  background: var(--inputBg);
+  color: var(--text);
   font-size: 1rem;
   width: 200px;
   max-width: 100%;
@@ -143,35 +210,34 @@
 .search-group input:focus,
 .search-group select:focus {
   outline: none;
-  border-color: #4a90e2;
+  border-color: var(--brand);
   box-shadow: 0 0 0 2px rgba(74,144,226,0.3);
 }
 .search-group button {
   padding: 0.75rem 1.5rem;
-  background: #4a90e2;
+  background: var(--brand);
   color: #fff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background .2s;
 }
-.search-group button:hover { background: #357ab8; }
+.search-group button:hover { filter: brightness(0.9); }
 .error-text { margin-top: .75rem; color: #ff6b6b; }
 
 /* Chart card */
 .chart-card h2 { margin-bottom: 1rem; }
-.loading-text, .no-data-text { text-align: center; color: #888; }
-
-/* Problems */
-.problems-card h2 { margin-bottom: 1rem; }
 
 /* Footer */
 .dashboard-footer {
   text-align: center;
   padding: 1rem 0;
-  border-top: 1px solid #333;
-  color: #888;
+  border-top: 1px solid var(--headerBorder);
+  color: black;
+}body.dark-mode .dashboard-footer {
+  color: #ccc;
 }
+
 
 /* Responsive */
 @media (max-width: 768px) {

@@ -7,6 +7,19 @@ import '../styles/ProblemsPage.css';
 export default function ProblemsPage() {
   const navigate = useNavigate();
 
+  // ---------- theme (same key as Dashboard/Contests) ----------
+  const getInitialDark = () => {
+    const saved = localStorage.getItem('darkMode');
+    if (saved !== null) return JSON.parse(saved);
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+  };
+  const [isDark, setIsDark] = useState(getInitialDark);
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDark);
+    localStorage.setItem('darkMode', JSON.stringify(isDark));
+  }, [isDark]);
+
+  // ---------- tabs ----------
   const [tab, setTab] = useState('cf'); // 'cf' | 'lc' | 'cc'
 
   // -------- CF state --------
@@ -33,6 +46,7 @@ export default function ProblemsPage() {
         const json = await res.json();
         const problems = json?.result?.problems ?? [];
         const withRating = problems.filter(p => typeof p.rating === 'number');
+        // unique tags
         const tagSet = new Set();
         withRating.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
         const tagList = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
@@ -138,8 +152,6 @@ export default function ProblemsPage() {
   ];
 
   // -------- CodeChef curated links --------
-  // NOTE: These are public Practice links with rating filters in the querystring.
-  // CodeChef may change params over time; these currently work and avoid any API/auth.
   const ccDifficultyLinks = [
     { label: '≤ 999 (Beginner)', href: 'https://www.codechef.com/practice?start_rating=0&end_rating=999&sort_by=difficulty_rating&sort_order=asc' },
     { label: '1000–1399',        href: 'https://www.codechef.com/practice?start_rating=1000&end_rating=1399&sort_by=difficulty_rating&sort_order=asc' },
@@ -148,8 +160,6 @@ export default function ProblemsPage() {
     { label: '2000–2399',        href: 'https://www.codechef.com/practice?start_rating=2000&end_rating=2399&sort_by=difficulty_rating&sort_order=asc' },
     { label: '2400+',            href: 'https://www.codechef.com/practice?start_rating=2400&end_rating=5000&sort_by=difficulty_rating&sort_order=asc' },
   ];
-
-  // Topic pages; slugs are CodeChef’s tag pages.
   const ccTopicLinks = [
     { label: 'Dynamic Programming', href: 'https://www.codechef.com/tags/problems/dynamic-programming' },
     { label: 'Graphs',              href: 'https://www.codechef.com/tags/problems/graph-theory' },
@@ -159,7 +169,6 @@ export default function ProblemsPage() {
     { label: 'Strings',             href: 'https://www.codechef.com/tags/problems/strings' },
     { label: 'Segment Tree',        href: 'https://www.codechef.com/tags/problems/segment-tree' },
   ];
-
   const [ccQuery, setCcQuery] = useState('');
 
   // ---- UI helpers ----
@@ -187,16 +196,26 @@ export default function ProblemsPage() {
 
   return (
     <>
-      {/* Top bar */}
+      {/* Top bar with center brand + theme toggle on right */}
       <header className="cm-topbar">
         <button className="cm-back" onClick={() => navigate(-1)} aria-label="Go back">
           <FaArrowLeft />
         </button>
         <div className="cm-brand">CodeMate</div>
-        <div className="cm-right-spacer" />
+        <div className="cm-right">
+          <button
+            className="theme-btn"
+            onClick={() => setIsDark(d => !d)}
+            title="Toggle theme"
+            aria-label="Toggle theme"
+          >
+            <span>{isDark ? '🌙' : '🌞'}</span>
+          </button>
+        </div>
       </header>
 
       <div className="problems-page">
+        {/* Tabs */}
         <div className="tabs">
           <button className={tab === 'cf' ? 'active' : ''} onClick={() => setTab('cf')}>Codeforces</button>
           <button className={tab === 'lc' ? 'active' : ''} onClick={() => setTab('lc')}>LeetCode</button>
@@ -374,6 +393,8 @@ export default function ProblemsPage() {
           </>
         )}
       </div>
+
+      <footer className="problems-footer">© {new Date().getFullYear()} CodeMate</footer>
     </>
   );
 }

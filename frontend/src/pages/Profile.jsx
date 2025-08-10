@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import '../styles/AuthForm.css'; // reuse your form styles
+import '../styles/AuthForm.css';
 
 const API = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
 
@@ -20,6 +20,18 @@ export default function Profile() {
     lcUsername: '',
     bio: ''
   });
+
+  // theme toggle (top-right)
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    document.body.classList.toggle('dark-mode', next);
+    localStorage.setItem('darkMode', JSON.stringify(next));
+  };
 
   useEffect(() => {
     if (!token) { navigate('/login'); return; }
@@ -72,42 +84,64 @@ export default function Profile() {
     }
   };
 
-  if (loading) return <div className="auth-page"><div className="top-bar"><button className="back-arrow" onClick={()=>navigate(-1)}><FaArrowLeft color="white"/></button><h1 className="brand-title">Codemate</h1></div><div className="form-wrapper"><p>Loading…</p></div></div>;
+  if (loading) {
+    return (
+      <div className="auth-page">
+        <div className="top-bar">
+          <button className="back-arrow" onClick={()=>navigate(-1)} aria-label="Back"><FaArrowLeft color="white"/></button>
+          <h1 className="brand-title">Codemate</h1>
+          <div className="actions-right">
+            <button className="theme-btn" onClick={toggleTheme} title="Toggle theme">{dark ? '🌙' : '☀️'}</button>
+          </div>
+        </div>
+        <div className="form-wrapper"><p>Loading…</p></div>
+        <footer className="page-footer">© {new Date().getFullYear()} Codemate</footer>
+      </div>
+    );
+  }
 
   return (
     <div className="auth-page">
       <div className="top-bar">
-        <div className="back-arrow" onClick={() => navigate(-1)}>
-          <FaArrowLeft size={20} color="white" />
+        <div className="back-arrow" onClick={() => navigate(-1)} aria-label="Back">
+          <FaArrowLeft size={18} color="white" />
         </div>
         <h1 className="brand-title">Codemate</h1>
+        <div className="actions-right">
+          <button className="theme-btn" onClick={toggleTheme} title="Toggle theme">
+            {dark ? '🌙' : '☀️'}
+          </button>
+        </div>
       </div>
 
       <div className="form-wrapper">
-        <form className="auth-form" onSubmit={onSave}>
+        <form className="auth-form auth-form--wide" onSubmit={onSave}>
           <h2>Profile</h2>
 
-          <label style={{color:'#aaa', fontSize:'0.9rem'}}>Email (read-only)</label>
-          <input type="email" value={form.email} readOnly />
+          <label>Email (read-only)
+            <input type="email" value={form.email} readOnly />
+          </label>
 
-          <label style={{color:'#aaa', fontSize:'0.9rem'}}>Username</label>
-          <input name="username" value={form.username} onChange={onChange} required />
+          <label>Username
+            <input name="username" value={form.username} onChange={onChange} required />
+          </label>
 
-          <label style={{color:'#aaa', fontSize:'0.9rem'}}>Codeforces Handle</label>
-          <input name="cfHandle" value={form.cfHandle} onChange={onChange} placeholder="e.g., tourist" />
+          <label>Codeforces Handle
+            <input name="cfHandle" value={form.cfHandle} onChange={onChange} placeholder="e.g., tourist" />
+          </label>
 
-          <label style={{color:'#aaa', fontSize:'0.9rem'}}>LeetCode Username</label>
-          <input name="lcUsername" value={form.lcUsername} onChange={onChange} placeholder="e.g., john_doe" />
+          <label>LeetCode Username
+            <input name="lcUsername" value={form.lcUsername} onChange={onChange} placeholder="e.g., neetcode" />
+          </label>
 
-          <label style={{color:'#aaa', fontSize:'0.9rem'}}>Bio</label>
-          <textarea
-            name="bio"
-            value={form.bio}
-            onChange={onChange}
-            rows={4}
-            style={{resize:'vertical', background:'#333', color:'#fff', border:'none', borderRadius:6, padding:'0.75rem 1rem', marginBottom:'1rem'}}
-            placeholder="Short intro…"
-          />
+          <label>Bio
+            <textarea
+              name="bio"
+              value={form.bio}
+              onChange={onChange}
+              placeholder="Short intro…"
+            />
+          </label>
 
           <button type="submit">Save Changes</button>
 
@@ -115,6 +149,8 @@ export default function Profile() {
           {err && <div className="error-message" style={{marginTop:'12px'}}>{err}</div>}
         </form>
       </div>
+
+      <footer className="page-footer">© {new Date().getFullYear()} Codemate</footer>
     </div>
   );
 }

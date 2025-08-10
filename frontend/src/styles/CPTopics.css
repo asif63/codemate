@@ -1,5 +1,5 @@
 /* ================================
-   CPTopics.css — refreshed
+   CPTopics.css — refreshed + topbar/theme/footer
    ================================ */
 
 /* ---------- Base ---------- */
@@ -25,7 +25,44 @@
 
 body.dark-mode :root { /* no-op hook for IDEs */ }
 
-/* Page */
+/* ---------- Reusable top bar (center brand + back + theme) ---------- */
+.cm-topbar{
+  position: sticky; top: 0; z-index: 1000;
+  display: grid;
+  grid-template-columns: 56px 1fr 56px; /* back | brand | right */
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+.cm-back{
+  width:40px;height:40px;display:grid;place-items:center;
+  background:transparent;color:#eaeaea;
+  border:1px solid #333;border-radius:8px;cursor:pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.cm-back:hover{ background:#222; border-color:#4a90e2; color:#fff; }
+.cm-brand{
+  justify-self:center;
+  font-weight:700; font-size:20px; color:#eaeaea; letter-spacing:.2px;
+}
+.cm-right{ display:flex; justify-content:flex-end; }
+
+/* Theme pill (consistency with other pages) */
+.theme-btn{
+  width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  padding:0; line-height:1; font-size:18px;
+  background: rgba(255,255,255,.06);
+  color:#eaeaea; border:1px solid #333; border-radius:10px; cursor:pointer;
+  transition: background .2s, border-color .2s, color .2s, transform .06s;
+}
+.theme-btn:hover{ background:#222; border-color:#4a90e2; }
+.theme-btn span{ line-height:1; transform: translateY(-1px); }
+body.dark-mode .theme-btn{ background:#1e2532; border-color:#3a4760; }
+
+/* ---------- Page ---------- */
 .cp-topics-page{
   background:
     radial-gradient(1200px 600px at 10% -10%, #e9f1ff 0%, transparent 60%),
@@ -52,7 +89,7 @@ body.dark-mode :root { /* no-op hook for IDEs */ }
   gap: 18px;
 }
 
-/* Card */
+/* ---------- Card ---------- */
 .topic-card{
   background: var(--card);
   border: 1px solid var(--card-border);
@@ -62,9 +99,12 @@ body.dark-mode :root { /* no-op hook for IDEs */ }
   transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
 .topic-card:hover{ transform: translateY(-2px); box-shadow: 0 12px 26px rgba(0,0,0,.08); }
-.topic-card.open{ border-color: color-mix(in srgb, var(--card-ring) 55%, #fff); box-shadow: 0 14px 32px rgba(74,144,226,.18); }
+.topic-card.open{
+  border-color: color-mix(in srgb, var(--card-ring) 55%, #fff);
+  box-shadow: 0 14px 32px rgba(74,144,226,.18);
+}
 
-/* Header (button) */
+/* ---------- Header (button) ---------- */
 .topic-header{
   appearance: none;
   width: 100%;
@@ -98,7 +138,7 @@ body.dark-mode :root { /* no-op hook for IDEs */ }
 }
 .topic-card.open .topic-header .chev{ transform: rotate(90deg); }
 
-/* Content */
+/* ---------- Content ---------- */
 .topic-content{
   background: #fafbff;
   padding: 16px 24px 22px;
@@ -119,6 +159,14 @@ body.dark-mode :root { /* no-op hook for IDEs */ }
   background: #eef4ff;
   border: 1px solid #dfe8ff;
   color: #2b4fff;
+}
+
+/* ---------- Footer ---------- */
+.topics-footer{
+  text-align:center;
+  padding: 1rem 0 2rem;
+  border-top: 1px solid #333;
+  color: #888;
 }
 
 /* ---------- Dark mode ---------- */
@@ -155,7 +203,7 @@ body.dark-mode .topic-content a[href^="http"]{
   .topic-content{ padding: 14px 18px 18px; }
 }
 
-/* Focus (a11y) */
+/* ---------- Focus (a11y) ---------- */
 .topic-header:focus-visible{
   outline: 3px solid color-mix(in srgb, var(--card-ring) 70%, #fff);
   outline-offset: 2px;

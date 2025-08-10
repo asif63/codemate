@@ -8,6 +8,19 @@ import '../styles/Contests.css';
 export default function Contests() {
   const navigate = useNavigate();
 
+  // --- theme (same behavior as Dashboard) ---
+  const getInitialDark = () => {
+    const saved = localStorage.getItem('darkMode');
+    if (saved !== null) return JSON.parse(saved);
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+  };
+  const [isDark, setIsDark] = useState(getInitialDark);
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDark);
+    localStorage.setItem('darkMode', JSON.stringify(isDark));
+  }, [isDark]);
+
+  // --- data ---
   const [all, setAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState('');
@@ -31,7 +44,7 @@ export default function Contests() {
             url: `https://codeforces.com/contest/${c.id}`,
           }));
 
-        // CodeChef (dev via Vite proxy; prod should call your backend)
+        // CodeChef (dev via proxy; prod should go through backend)
         const ccRes = await fetch('/api/codechef');
         const ccJson = await ccRes.json();
         const cc = (ccJson.future_contests || []).map(c => ({
@@ -42,7 +55,7 @@ export default function Contests() {
           url: `https://www.codechef.com/${c.contest_code}`,
         }));
 
-        // LeetCode (dev via Vite proxy; prod should call your backend)
+        // LeetCode (dev via proxy; prod through backend)
         const lcRes = await fetch('/api/leetcode', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -101,7 +114,7 @@ export default function Contests() {
 
   return (
     <>
-      {/* centered brand + back arrow */}
+      {/* Top bar: back, centered brand, theme toggle on right */}
       <header className="cm-topbar">
         <button
           className="cm-back"
@@ -112,7 +125,16 @@ export default function Contests() {
           <FaArrowLeft />
         </button>
         <div className="cm-brand">CodeMate</div>
-        <div className="cm-right-spacer" />
+        <div className="cm-right">
+          <button
+            className="theme-btn"
+            onClick={() => setIsDark(d => !d)}
+            title="Toggle theme"
+            aria-label="Toggle theme"
+          >
+            <span>{isDark ? '🌙' : '🌞'}</span>
+          </button>
+        </div>
       </header>
 
       <div className="contests-page">
@@ -127,24 +149,21 @@ export default function Contests() {
                   type="checkbox"
                   checked={platforms.cf}
                   onChange={() => setPlatforms(p => ({ ...p, cf: !p.cf }))}
-                />
-                Codeforces
+                /> Codeforces
               </label>
               <label>
                 <input
                   type="checkbox"
                   checked={platforms.cc}
                   onChange={() => setPlatforms(p => ({ ...p, cc: !p.cc }))}
-                />
-                CodeChef
+                /> CodeChef
               </label>
               <label>
                 <input
                   type="checkbox"
                   checked={platforms.lc}
                   onChange={() => setPlatforms(p => ({ ...p, lc: !p.lc }))}
-                />
-                LeetCode
+                /> LeetCode
               </label>
             </div>
 
@@ -174,6 +193,8 @@ export default function Contests() {
           </div>
         )}
       </div>
+
+      <footer className="contests-footer">© {new Date().getFullYear()} CodeMate</footer>
     </>
   );
 }
