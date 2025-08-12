@@ -112,7 +112,13 @@ const Signup = () => {
           </div>
         )}
       </div>
+
+      
+      
+      {/* Footer */}
+      <footer className="page-footer">© 2025 CodeMate</footer>
     </div>
+    
   );
 };
 

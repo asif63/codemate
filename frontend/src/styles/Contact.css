@@ -233,3 +233,29 @@ body.dark-mode .team-card {
 body.dark-mode .team-card h2 { color: #ffffff; }
 body.dark-mode .team-card p { color: #bbbbbb; }
 body.dark-mode .team-card a { color: #00c8ff; }
+
+/* ---------- Footer (minimal centered) ---------- */
+.contact-footer {
+  background: #f7f8fb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer-center {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Dark mode footer */
+body.dark-mode .contact-footer {
+  background: #12161f;
+  border-top-color: #2a2f3a;
+}
+body.dark-mode .footer-center {
+  color: #c3c8d0;
+}
+  

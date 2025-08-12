@@ -45,14 +45,24 @@ body.dark-mode {
 }
 
 .cm-back {
-  width: 40px; height: 40px;
-  display: grid; place-items: center;
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--headerBorder);
-  border-radius: 8px;
+width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;                /* remove default button padding */
+  line-height: 1;            /* kill extra baseline space */
+  font-size: 18px;
+  text-align: center;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
   cursor: pointer;
-  transition: background .2s, border-color .2s, color .2s;
+  -webkit-appearance: none;  /* remove OS-specific styles */
+  appearance: none;
+  
 }
 .cm-back:hover {
   background: rgba(0,0,0,.05);

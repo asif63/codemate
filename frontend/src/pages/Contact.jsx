@@ -23,7 +23,7 @@ export default function Contact() {
 
   const toggleDarkMode = () => setDarkMode(prev => !prev);
 
-  // ---- Team data (unchanged) ----
+  // ---- Team data ----
   const teamMembers = [
     {
       name: 'Md. Ashraful Islam',
@@ -107,6 +107,11 @@ export default function Contact() {
           ))}
         </div>
       </main>
+
+      {/* ===== Minimal footer ===== */}
+      <footer className="contact-footer">
+        <div className="footer-center">CodeMate 2025</div>
+      </footer>
     </div>
   );
 }

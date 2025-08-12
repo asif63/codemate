@@ -8,47 +8,28 @@ import ContestCard from "../pages/ContestCard";
 export default function Home() {
   const [cards, setCards] = useState([]);
 
-  // ✅ --- START: IMPROVED DARK MODE LOGIC ---
-
-  // Function to get the initial theme preference
+  // --- Dark mode ---
   const getInitialMode = () => {
     const savedMode = localStorage.getItem("darkMode");
-    if (savedMode !== null) {
-      return JSON.parse(savedMode);
-    }
-    // If no saved mode, check system preference
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedMode !== null) return JSON.parse(savedMode);
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   };
-
   const [darkMode, setDarkMode] = useState(getInitialMode);
 
   useEffect(() => {
-    // Apply the class to the body
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
-    // Save the user's preference to localStorage
+    document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
 
-  const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode);
-  };
+  const toggleDarkMode = () => setDarkMode(m => !m);
 
-  // ✅ --- END: IMPROVED DARK MODE LOGIC ---
-
+  // --- Upcoming contests (unchanged) ---
   useEffect(() => {
-    // Your existing API fetching code remains unchanged
     const cf = axios
       .get("https://codeforces.com/api/contest.list")
       .then((res) =>
         res.data.result
-          .filter(
-            (c) =>
-              c.phase === "BEFORE" && typeof c.startTimeSeconds === "number"
-          )
+          .filter((c) => c.phase === "BEFORE" && typeof c.startTimeSeconds === "number")
           .map((c) => ({
             id: `cf-${c.id}`,
             name: c.name,
@@ -57,11 +38,11 @@ export default function Home() {
           }))
           .filter((c) => c.startTime > Date.now())
           .sort((a, b) => a.startTime - b.startTime)
-          .slice(0, 2)
+          .slice(0, 5)
       );
 
     const cc = axios.get("/api/codechef").then((res) =>
-      res.data.future_contests
+      (res.data.future_contests || [])
         .map((c) => ({
           id: `cc-${c.contest_code}`,
           name: c.contest_name,
@@ -85,10 +66,10 @@ export default function Home() {
         `,
       })
       .then((res) =>
-        res.data.data.allContests
+        (res.data?.data?.allContests || [])
           .filter((c) => c.startTime * 1000 > Date.now())
           .sort((a, b) => a.startTime - b.startTime)
-          .slice(0, 2)
+          .slice(0, 5)
           .map((c) => ({
             id: `lc-${c.titleSlug}`,
             name: c.title,
@@ -98,9 +79,7 @@ export default function Home() {
       );
 
     Promise.all([cf, cc, lc])
-      .then(([cfList, ccList, lcList]) => {
-        setCards([...cfList, ...ccList, ...lcList]);
-      })
+      .then(([cfList, ccList, lcList]) => setCards([...cfList, ...ccList, ...lcList]))
       .catch(console.error);
   }, []);
 
@@ -116,20 +95,20 @@ export default function Home() {
               <span className="dropdown-label">CP Topics ▼</span>
               <div className="dropdown-content">
                 <Link to="/topics/dp">Dynamic Programming</Link>
-    <Link to="/topics/graphs">Graphs</Link>
-    <Link to="/topics/greedy">Greedy Algorithms</Link>
-    <Link to="/topics/trees-lca">Trees & LCA</Link>
-    <Link to="/topics/segtree">Segment Tree / Fenwick Tree</Link>
-    <Link to="/topics/search">Binary & Ternary Search</Link>
-    <Link to="/topics/bitmask">Bit Manipulation / Bitmask DP</Link>
-    <Link to="/topics/number-theory">Number Theory</Link>
-    <Link to="/topics/strings">String Algorithms</Link>
-    <Link to="/topics/geometry">Computational Geometry</Link>
-    <Link to="/topics/flow">Flow & Matching</Link>
-    <Link to="/topics/advanced-ds">Advanced Data Structures</Link>
-    <Link to="/topics/game-theory">Game Theory</Link>
-    <Link to="/topics/probability">Probability & Expected Value</Link>
-    <Link to="/topics/misc">Misc / Tricks</Link>
+                <Link to="/topics/graphs">Graphs</Link>
+                <Link to="/topics/greedy">Greedy Algorithms</Link>
+                <Link to="/topics/trees-lca">Trees & LCA</Link>
+                <Link to="/topics/segtree">Segment Tree / Fenwick Tree</Link>
+                <Link to="/topics/search">Binary & Ternary Search</Link>
+                <Link to="/topics/bitmask">Bit Manipulation / Bitmask DP</Link>
+                <Link to="/topics/number-theory">Number Theory</Link>
+                <Link to="/topics/strings">String Algorithms</Link>
+                <Link to="/topics/geometry">Computational Geometry</Link>
+                <Link to="/topics/flow">Flow & Matching</Link>
+                <Link to="/topics/advanced-ds">Advanced Data Structures</Link>
+                <Link to="/topics/game-theory">Game Theory</Link>
+                <Link to="/topics/probability">Probability & Expected Value</Link>
+                <Link to="/topics/misc">Misc / Tricks</Link>
               </div>
             </div>
             <Link to="/contact">Contact</Link>
@@ -150,16 +129,18 @@ export default function Home() {
           <h2>Upcoming Contests</h2>
           <div className="contest-list">
             {cards.map((c) => (
-              <ContestCard
-                key={c.id}
-                name={c.name}
-                startTime={c.startTime}
-                url={c.url}
-              />
+              <ContestCard key={c.id} name={c.name} startTime={c.startTime} url={c.url} />
             ))}
           </div>
         </section>
       </main>
+
+      {/* NEW Footer */}
+           {/* Footer (minimal) */}
+      <footer className="home-footer">
+        <div className="footer-center">© CodeMate 2025</div>
+      </footer>
+
     </div>
   );
 }

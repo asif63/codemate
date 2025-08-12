@@ -6,21 +6,21 @@
 * { box-sizing: border-box; }
 
 :root{
-  --bg: #f6f8fc;
+  --bg: #9ca3c2;
   --ink: #1d1f23;
   --muted: #60646c;
 
-  --card: #fff;
+  --card: #cba4a4;
   --card-border: rgba(0,0,0,.08);
   --card-ring: #4a90e2;
 
-  --header: #f0f4ff;
-  --header-hover: #e6edff;
+  --header: #aab3cb;
+  --header-hover: #7e8aa8;
 
-  --pill-bg: #eef3ff;
+  --pill-bg: #aeb5c6;
   --pill-ink:#2b2b2b;
 
-  --link:#0a66ff;
+  --link:#95a6c0;
 }
 
 body.dark-mode :root { /* no-op hook for IDEs */ }
@@ -38,7 +38,7 @@ body.dark-mode :root { /* no-op hook for IDEs */ }
 }
 .cm-back{
   width:40px;height:40px;display:grid;place-items:center;
-  background:transparent;color:#eaeaea;
+  background:transparent;color:#8a7676;
   border:1px solid #333;border-radius:8px;cursor:pointer;
   transition: background .2s, border-color .2s, color .2s;
 }
@@ -65,8 +65,8 @@ body.dark-mode .theme-btn{ background:#1e2532; border-color:#3a4760; }
 /* ---------- Page ---------- */
 .cp-topics-page{
   background:
-    radial-gradient(1200px 600px at 10% -10%, #e9f1ff 0%, transparent 60%),
-    radial-gradient(800px 400px at 90% -20%, #ffe9f2 0%, transparent 55%),
+    radial-gradient(1200px 600px at 10% -10%, #757d8b 0%, transparent 60%),
+    radial-gradient(800px 400px at 90% -20%, #856c76 0%, transparent 55%),
     var(--bg);
   min-height: 100vh;
   padding: 72px 20px 96px;

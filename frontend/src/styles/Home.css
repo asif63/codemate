@@ -253,3 +253,46 @@ body:not(.dark-mode) .hero p,
 body:not(.dark-mode) .contests h2 {
   color: #444 !important;
 }
+
+/* Make the page push footer to the bottom */
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Let main take remaining space so footer sits at bottom */
+.main-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 100px auto 0 auto;
+  padding: 40px 20px;
+}
+
+/* ---------- Footer ---------- */
+/* ---------- Footer (minimal centered) ---------- */
+.home-footer {
+  background: #f7f8fb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer-center {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Dark mode footer */
+body.dark-mode .home-footer {
+  background: #12161f;
+  border-top-color: #2a2f3a;
+}
+body.dark-mode .footer-center {
+  color: #c3c8d0;
+}
+
+

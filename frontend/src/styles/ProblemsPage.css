@@ -1,20 +1,20 @@
 /* ---------- Theme variables ---------- */
 :root{
-  --bg:#f5f6fa;
+  --bg:#a7aeca;
   --text:#222;
-  --brand:#4a90e2;
+  --brand:#80aada;
 
-  --headerBg:#ffffff;
-  --headerBorder:#e6e6e6;
+  --headerBg:#e1d5d5;
+  --headerBorder:#c8baba;
 
-  --card:#ffffff;
+  --card:#dbc8c8;
   --cardBorder:#e6e6e6;
 
   --muted:#666;
   --inputBg:#ffffff;
   --inputBorder:#ccc;
 
-  --pillBg:#eef1f6;
+  --pillBg:#acb3c1;
 }
 body.dark-mode{
   --bg:#111;
