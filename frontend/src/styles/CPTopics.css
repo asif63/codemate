@@ -83,16 +83,18 @@ body.dark-mode .theme-btn{ background:#1e2532; border-color:#3a4760; }
 }
 
 /* ---------- List ---------- */
-.topics-list{
+.topics-list {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
+  grid-template-columns: 1fr;    /* you already have this */
+  gap: 18px;                     /* already present */
+  align-items: start;            /* <-- add this */
 }
 
 /* ---------- Card ---------- */
 .topic-card{
   background: var(--card);
   border: 1px solid var(--card-border);
+  align-self: start;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,.06);
   overflow: hidden;
@@ -189,9 +191,18 @@ body.dark-mode .cp-topics-page{
     var(--bg);
 }
 
-body.dark-mode .topic-content{ background: #141824; }
+body.dark-mode .topic-content{ background: #141824;
+color: #e6edf3;
+}
+
+body.dark-mode .topic-content li::marker{color : #7aa2ff}
+
+body.dark-mode .topic-content a{
+  color : #9ecbff;
+}
+
 body.dark-mode .topic-content a[href^="http"]{
-  background:#141c2b; border-color:#22324e; color:#a8d3ff;
+  background:#141c2b; border-color:#22324e; color:#b9ddff;
 }
 
 /* ---------- Responsive ---------- */

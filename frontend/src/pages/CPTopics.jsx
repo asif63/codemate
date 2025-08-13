@@ -123,11 +123,14 @@ export default function CPTopics() {
   const [openIndex, setOpenIndex] = useState(null);
 
   // theme
-  const getInitialDark = () => {
-    const saved = localStorage.getItem('darkMode');
-    if (saved !== null) return JSON.parse(saved);
-    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
-  };
+// theme
+const getInitialDark = () => {
+  const saved = localStorage.getItem('darkMode');
+  if (saved !== null) return JSON.parse(saved);
+  return window.matchMedia &&
+         window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
   const [isDark, setIsDark] = useState(getInitialDark);
   useEffect(() => {
     document.body.classList.toggle('dark-mode', isDark);
