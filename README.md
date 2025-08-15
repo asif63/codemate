@@ -208,7 +208,7 @@ Dark mode is applied by toggling `body.dark-mode` and persisting a boolean under
 ## 👥 Team
 
 * Md. Ashraful Islam — ID: 21701015 — Frontend
-* Md. Mizbah Uddin — ID: 20701072 — Backend
+* Md Mizbah Uddin — ID: 20701072 — Backend
 * Robin Dey — ID: 20701011 — Database
 
 ---
