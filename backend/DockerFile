@@ -1,0 +1,20 @@
+# backend/Dockerfile
+FROM mcr.microsoft.com/playwright:v1.46.1-jammy
+
+WORKDIR /app
+
+# Install node deps
+COPY package*.json ./
+RUN npm ci
+
+# Generate Prisma client now (schema must be in /app/prisma)
+RUN npx prisma generate || true
+
+# Copy the app
+COPY . .
+
+ENV NODE_ENV=production
+EXPOSE 5000
+
+# Run migrations (or push) then start the server
+CMD ["sh", "-c", "npx prisma migrate deploy || npx prisma db push; node index.js"]
