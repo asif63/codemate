@@ -1,37 +1,47 @@
 /* ---------- Theme variables ---------- */
 :root{
-  --bg:#a7aeca;
-  --text:#222;
-  --brand:#80aada;
-
-  --headerBg:#e1d5d5;
-  --headerBorder:#c8baba;
-
-  --card:#dbc8c8;
-  --cardBorder:#e6e6e6;
-
-  --muted:#666;
-  --inputBg:#ffffff;
-  --inputBorder:#ccc;
-
-  --pillBg:#acb3c1;
-}
-body.dark-mode{
-  --bg:#111;
-  --text:#eee;
+  --bg:#f7f8fb;
+  --text:#181a22;
   --brand:#4a90e2;
 
-  --headerBg:#1a1a1a;
-  --headerBorder:#333;
+  --headerBg:#ffffff;
+  --headerBorder:#e6e8ef;
 
-  --card:#1b1b1b;
-  --cardBorder:#2a2a2a;
+  --card:#ffffff;
+  --cardBorder:#e6e8ef;
 
-  --muted:#9aa0a6;
-  --inputBg:#111;
-  --inputBorder:#333;
+  --muted:#5c6272;
+  --inputBg:#ffffff;
+  --inputBorder:#dfe3ec;
 
-  --pillBg:#2b2b2b;
+  --pillBg:#eef1f7;
+
+  /* extras for code/accents */
+  --codeBg:#f2f4f8;
+  --codeBorder:#e5e9f2;
+  --accentWeak: rgba(74,144,226,0.14);
+}
+
+body.dark-mode{
+  --bg:#0f1117;
+  --text:#e9ebf1;
+  --brand:#8ca2ff;
+
+  --headerBg:#151823;
+  --headerBorder:#252a3b;
+
+  --card:#151823;
+  --cardBorder:#252a3b;
+
+  --muted:#9aa3b2;
+  --inputBg:#0f1117;
+  --inputBorder:#252a3b;
+
+  --pillBg:#1f2433;
+
+  --codeBg:#0f1320;
+  --codeBorder:#252a3b;
+  --accentWeak: rgba(140,162,255,0.15);
 }
 
 /* ---------- Top bar ---------- */
@@ -49,10 +59,10 @@ body.dark-mode{
   background:transparent; color:var(--text);
   border:1px solid var(--headerBorder);
   border-radius:8px; cursor:pointer;
-  transition: background .2s, border-color .2s, color .2s;
+  transition: background .2s, border-color .2s, color .2s, transform .06s;
 }
-.cm-back:hover{ background:rgba(0,0,0,.05); }
-body.dark-mode .cm-back:hover{ background:#222; border-color:#4a90e2; color:#fff; }
+.cm-back:hover{ background:rgba(0,0,0,.04); transform: translateY(-1px); }
+body.dark-mode .cm-back:hover{ background:#202431; border-color:#2f3650; color:#fff; }
 
 .cm-brand{
   justify-self:center;
@@ -60,50 +70,33 @@ body.dark-mode .cm-back:hover{ background:#222; border-color:#4a90e2; color:#fff
 }
 .cm-right{ display:flex; justify-content:flex-end; }
 
-/* theme button (same as Dashboard/Contests) */
+/* theme button */
 .theme-btn{
   width:40px; height:40px;
   display:flex; align-items:center; justify-content:center;
   padding:0; line-height:1; font-size:18px;
   background:rgba(0,0,0,.05);
   color:var(--text);
-  border:1px solid rgba(0,0,0,.15);
+  border:1px solid var(--headerBorder);
   border-radius:10px; cursor:pointer;
 }
-body.dark-mode .theme-btn{ background:#222; border-color:#444; }
-.theme-btn span{ line-height:1; transform:translateY(-1px); }
+body.dark-mode .theme-btn{ background:#202431; border-color:#2a3149; }
 
 /* ---------- Page container ---------- */
 .problems-page{
-  max-width:1200px;
+  max-width:1100px;
   margin:2rem auto 3rem;
   padding:0 1rem;
   color:var(--text);
   background:var(--bg);
 }
 
-/* Tabs */
-.tabs{
-  display:inline-flex;
-  background:var(--card);
-  border:1px solid var(--cardBorder);
-  border-radius:10px; overflow:hidden;
-}
-.tabs button{
-  padding:10px 16px; background:transparent;
-  color:var(--muted); border:0; cursor:pointer;
-}
-.tabs button.active{
-  background:var(--cardBorder);
-  color:var(--text);
-}
-
-/* Generic filter panel */
+/* Filters & chips (unchanged from your version, trimmed) */
 .filters{
   margin-top:16px;
   background:var(--card);
   border:1px solid var(--cardBorder);
-  border-radius:10px;
+  border-radius:12px;
   padding:16px;
 }
 .filters .row{
@@ -124,7 +117,6 @@ body.dark-mode .theme-btn{ background:#222; border-color:#444; }
 .field.range .range-inputs{ display:flex; align-items:center; gap:8px; }
 .field .inline{ display:inline-flex; align-items:center; gap:8px; }
 
-/* Tag selector */
 .tags-panel{ margin-top:12px; }
 .tags-panel summary{ cursor:pointer; color:var(--brand); margin-bottom:8px; }
 .tags-select{
@@ -139,32 +131,14 @@ body.dark-mode .theme-btn{ background:#222; border-color:#444; }
   padding:8px 10px; border-radius:8px;
   color:var(--text);
 }
-.tag-choice.on{ border-color:#4a90e2; }
+.tag-choice.on{ border-color:var(--brand); }
 
-/* Actions */
-.actions{
-  margin:12px 0 18px;
-  display:flex; gap:10px; flex-wrap:wrap;
-}
-.actions button{
-  padding:10px 12px;
-  background:var(--card);
-  border:1px solid var(--cardBorder);
-  color:var(--text);
-  border-radius:8px; cursor:pointer;
-}
-.actions button:hover{
-  border-color:#4a90e2;
-}
-
-/* Titles/state */
+/* ---------- Problem grid/cards (your original, lightly tuned) ---------- */
 .section-title{ margin:10px 0; font-size:18px; color:var(--text); }
-.section-title.with-gap{ margin-top:24px; }
 .state{ padding:16px 0; }
 .state.muted{ color:var(--muted); }
 .state.error{ color:#ff7b7b; }
 
-/* Problem grid/cards */
 .prob-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -181,12 +155,10 @@ body.dark-mode .theme-btn{ background:#222; border-color:#444; }
 }
 .prob-card:hover{
   transform:translateY(-2px);
-  border-color:#3a3a3a;
-  box-shadow:0 8px 20px rgba(0,0,0,.15);
+  border-color:#3b82f6;
+  box-shadow:0 10px 22px rgba(0,0,0,.12);
 }
-body.dark-mode .prob-card:hover{
-  box-shadow:0 8px 20px rgba(0,0,0,.35);
-}
+body.dark-mode .prob-card:hover{ box-shadow:0 10px 22px rgba(0,0,0,.35); }
 .prob-title{ font-weight:600; margin-bottom:8px; color:var(--text); }
 .prob-meta{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
 .pill{
@@ -194,7 +166,6 @@ body.dark-mode .prob-card:hover{
   background:var(--pillBg); color:var(--text);
 }
 .pill.rating{ background:#2e3a52; color:#e6ebff; }
-
 .tags{ display:flex; flex-wrap:wrap; gap:6px; }
 .tags span{
   font-size:11px; color:var(--muted);
@@ -203,43 +174,288 @@ body.dark-mode .prob-card:hover{
   padding:2px 6px; border-radius:6px;
 }
 
-/* ---------- LeetCode/CodeChef link sections ---------- */
-.lc-links{ margin-top:16px; display:grid; gap:12px; }
-.link-card{
-  background:var(--card);
-  border:1px solid var(--cardBorder);
-  border-radius:10px;
-  padding:14px;
+/* ---------- Statement + Runner Cards ---------- */
+.statement-card,
+.runner-card {
+  background: var(--card);
+  border: 1px solid var(--cardBorder);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 16px 0;
+  box-shadow: 0 8px 24px rgba(18, 22, 33, 0.06);
 }
-.link-card h4{ margin:0 0 8px 0; color:var(--text); font-weight:600; }
-
-/* Chips */
-.chips{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.chip{
-  display:inline-block; padding:8px 12px; border-radius:9999px;
-  font-size:13.5px; border:1px solid var(--cardBorder);
-  color:var(--text); background:var(--inputBg);
-  text-decoration:none;
-  transition: background .2s, border-color .2s, transform .06s;
-}
-.chip:hover{ background:rgba(0,0,0,.05); border-color:#3b82f6; transform:translateY(-1px); }
-body.dark-mode .chip:hover{ background:#202020; }
-.chip.on{ background:#1f2a44; border-color:#3b82f6; color:#ecf2ff; }
-
-.cc-search{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-.cc-search input{
-  padding:10px 12px; border-radius:8px;
-  background:var(--inputBg); color:var(--text);
-  border:1px solid var(--inputBorder);
+body.dark-mode .statement-card,
+body.dark-mode .runner-card {
+  box-shadow: 0 14px 32px rgba(0,0,0,0.35);
 }
 
-.hint{ color:var(--muted); margin-top:6px; }
-
-/* ---------- Footer ---------- */
-.problems-footer{
-  text-align:center;
-  padding:1rem 0 2rem;
-  border-top:1px solid var(--headerBorder);
-  color:var(--muted);
-  background:var(--bg);
+/* Header row inside statement */
+.stm-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
 }
+.stm-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+}
+
+/* Action links */
+.stm-actions a{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: var(--accentWeak);
+  color: var(--brand);
+  transition: transform .06s ease, background .2s ease;
+}
+.stm-actions a:hover { transform: translateY(-1px); }
+
+/* Meta pills */
+.stm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 6px 0 14px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.stm-meta span {
+  background: var(--codeBg);
+  border: 1px solid var(--codeBorder);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+/* Statement HTML (from CF) */
+.stm-html {
+  line-height: 1.7;
+  font-size: 1rem;
+  color: var(--text);
+}
+.stm-html p { margin: 0.6rem 0; }
+.stm-html a { color: var(--brand); text-decoration: underline; }
+
+/* Make CF statement adopt app colors */
+.stm-html, .stm-html * { color: inherit; background: transparent; }
+
+/* Images */
+.stm-html img { max-width: 100%; height: auto; }
+
+/* Tables */
+.stm-html table {
+  width: 100%; border-collapse: collapse; margin: 1rem 0;
+  overflow: hidden; border-radius: 10px; border: 1px solid var(--codeBorder);
+}
+.stm-html th, .stm-html td {
+  border-top: 1px solid var(--codeBorder);
+  border-left: 1px solid var(--codeBorder);
+  padding: 10px 12px; vertical-align: top;
+}
+.stm-html th { background: var(--codeBg); }
+
+/* Code blocks (statement & samples) */
+.stm-html pre,
+.samples-box pre {
+  background: var(--codeBg);
+  border: 1px solid var(--codeBorder);
+  padding: 12px 14px;
+  border-radius: 10px;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0.4rem 0;
+}
+
+/* Long formulas/URLs */
+.stm-html, .stm-html * { overflow-wrap: anywhere; word-break: break-word; }
+
+/* MathJax inherits color */
+.mjx-container * { color: inherit; }
+
+/* ===== Samples section ===== */
+.samples-box { margin-top: 18px; }
+.samples-box h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.samples-box .s-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0;
+}
+.samples-box .lbl { font-weight: 700; margin-bottom: 6px; color: var(--muted); }
+.s-actions { display: flex; gap: 8px; margin-top: 8px; }
+.s-actions .btn,
+.s-actions .btn.ghost {
+  font-size: 0.85rem; padding: 6px 10px; border-radius: 8px;
+  border: 1px solid var(--codeBorder); background: var(--codeBg); color: var(--text);
+  cursor: pointer; transition: transform .06s ease, background .2s ease;
+}
+.s-actions .btn:hover { transform: translateY(-1px); }
+
+/* ===== Runner card ===== */
+.runner-card h3 { margin: 2px 0 10px; font-size: 1.05rem; }
+.runner-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.runner-actions .btn {
+  background: #111827; color: #fff; border: 1px solid transparent;
+  padding: 8px 12px; border-radius: 10px; cursor: pointer;
+}
+body.dark-mode .runner-actions .btn { background: #2b3250; }
+.runner-actions .btn.ghost {
+  background: transparent; color: var(--text); border: 1px solid var(--codeBorder);
+}
+
+/* ===== Responsiveness ===== */
+@media (max-width: 900px) {
+  .stm-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .stm-actions a { width: fit-content; }
+}
+@media (max-width: 720px) {
+  .samples-box .s-row { grid-template-columns: 1fr; }
+}
+
+/* === Fix footer on Problems page (center it & match theme) === */
+.dashboard-footer {
+  width: 100%;
+  text-align: center;
+  color: var(--muted);
+  background: var(--bg);
+  border-top: 1px solid var(--headerBorder);
+  padding: 1rem 0 2rem;
+  margin-top: 2rem;
+}
+
+/* Optional: keep footer near bottom when content is short */
+.problems-page {
+  min-height: calc(100vh - 72px); /* header ≈ 56–72px; adjust if needed */
+  box-sizing: border-box;
+}
+
+/* === Attractive link “chips” for LeetCode / CodeChef tabs === */
+/* Try several common containers so you don't have to change JSX */
+.problems-page .lc-links a,
+.problems-page .leetcode a,
+.problems-page .leet a,
+.problems-page .codechef a,
+.problems-page .cc a,
+.problems-page .links a,
+.problems-page .topics a,
+.problems-page .popular a {
+  display: inline-block;              /* creates spacing even if no spaces in HTML */
+  margin: 6px 8px 0 0;                /* visual gap between anchors */
+  padding: 8px 12px;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  text-decoration: none;
+
+  background: var(--pillBg);
+  color: var(--text);
+  border: 1px solid var(--cardBorder);
+  transition: transform .06s ease, background .2s ease, border-color .2s ease;
+}
+
+.problems-page .lc-links a:hover,
+.problems-page .leetcode a:hover,
+.problems-page .leet a:hover,
+.problems-page .codechef a:hover,
+.problems-page .cc a:hover,
+.problems-page .links a:hover,
+.problems-page .topics a:hover,
+.problems-page .popular a:hover {
+  background: rgba(59,130,246,0.12);  /* subtle blue */
+  border-color: #3b82f6;              /* blue border */
+  transform: translateY(-1px);
+}
+
+/* Optional: tiny density tweak for “Difficulty” pills */
+.problems-page .lc-links .difficulty a,
+.problems-page .leetcode .difficulty a,
+.problems-page .codechef .difficulty a {
+  padding: 6px 10px;
+  font-size: 0.88rem;
+}
+
+/* If any of those lists are stacked with no wrapping, let them wrap nicely */
+.problems-page .lc-links,
+.problems-page .leetcode,
+.problems-page .codechef,
+.problems-page .links,
+.problems-page .topics,
+.problems-page .popular {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0; /* spacing handled by a{margin} so it works even if items touch in HTML */
+}
+/* --- Problems page layout so footer centers & sits at bottom when content is short --- */
+.problems-page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px); /* ~topbar height */
+  box-sizing: border-box;
+}
+
+/* Let sections take natural height; footer will be pushed by margin-top:auto */
+.problems-page > *:not(.problems-footer) {
+  flex: 0 0 auto;
+}
+
+/* --- Footer for Problems page --- */
+.problems-footer {
+  margin-top: auto;         /* push to bottom if page is short */
+  width: 100%;
+  text-align: center;
+  color: var(--muted);
+  background: var(--bg);
+  border-top: 1px solid var(--headerBorder);
+  padding: 1rem 0 2rem;
+}
+
+/* If anything else forces left-align, bump specificity once: */
+.problems-page .problems-footer { text-align: center; }
+
+/* --- Attractive link “chips” for LeetCode / CodeChef tabs --- */
+.chips.wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  text-decoration: none;
+  background: var(--pillBg);
+  color: var(--text);
+  border: 1px solid var(--cardBorder);
+  transition: transform .06s ease, background .2s ease, border-color .2s ease;
+}
+
+.chip.on { border-color: #3b82f6; background: rgba(59,130,246,0.12); }
+
+.chip:hover {
+  transform: translateY(-1px);
+  border-color: #3b82f6;
+  background: rgba(59,130,246,0.12);
+}
+
+/* Link-card container visuals (optional, matches the other pages) */
+.link-card {
+  background: var(--card);
+  border: 1px solid var(--cardBorder);
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 12px;
+}
+.link-card h4 { margin: 0 0 8px; color: var(--text); font-weight: 600; }
+.hint { color: var(--muted); margin-top: 6px; }
+
+
+
+
+
+

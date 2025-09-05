@@ -6,6 +6,9 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import statsRouter from "./routes/stats.js";
 import leetcodeProxy from "./routes/leetcodeProxy.js";
+import judgeRouter from "./routes/judge.js";
+import cfRouter from "./routes/cf.js";
+import cf2Router from "./routes/cf2_browser.js";
 
 dotenv.config();
 
@@ -14,6 +17,9 @@ const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/judge", judgeRouter);
+app.use("/api/cf", cfRouter);
+app.use("/api/cf2", cf2Router);
 
 // ----- Routers you already had -----
 app.use("/api/stats", statsRouter);

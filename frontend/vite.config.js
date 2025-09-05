@@ -11,11 +11,27 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api\/codechef/, '/api/list/contests/all')
       },
-      '/api/leetcode': {
-        target: 'https://leetcode.com',
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api\/leetcode/, '/graphql')
-      }
-    }
+    '/api/leetcode': {
+      target: 'https://leetcode.com',
+      changeOrigin: true,
+      rewrite: path => path.replace(/^\/api\/leetcode/, '/graphql')
+    },
+  
+    '/api/judge': {
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+      rewrite: path => path.replace(/^\/api\/judge/, '/api/judge')
+    },
+    '/api/cf': {
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+    },
+    '/api/cf2': {
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+    },
+  },
+    // End of proxy object
   }
+  // End of server object
 })

@@ -38,7 +38,7 @@ export default function Home() {
           }))
           .filter((c) => c.startTime > Date.now())
           .sort((a, b) => a.startTime - b.startTime)
-          .slice(0, 5)
+          .slice(0, 2)
       );
 
     const cc = axios.get("/api/codechef").then((res) =>
@@ -69,7 +69,7 @@ export default function Home() {
         (res.data?.data?.allContests || [])
           .filter((c) => c.startTime * 1000 > Date.now())
           .sort((a, b) => a.startTime - b.startTime)
-          .slice(0, 5)
+          .slice(0, 2)
           .map((c) => ({
             id: `lc-${c.titleSlug}`,
             name: c.title,

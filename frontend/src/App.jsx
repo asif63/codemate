@@ -10,9 +10,13 @@ import Dashboard from './pages/Dashboard';
 import Contests from './pages/Contests';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import Practice from './pages/Practice';
+import CFRunner from './pages/CFRunner';
+
 
 // ✅ Use the full Problems page (tabs/filters), not the small dashboard widget
 import ProblemsPage from './pages/ProblemsPage';
+import PracticeSolve from './pages/PracticeSolve';
 
 function App() {
   return (
@@ -30,6 +34,10 @@ function App() {
         <Route path="/problems" element={<ProblemsPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/practice" element={<Practice />} />
+        <Route path="/practice/cf/:contestId/:index" element={<PracticeSolve/>} />
+
+        
       </Routes>
     </Router>
   );

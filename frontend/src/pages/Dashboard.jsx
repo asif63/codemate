@@ -92,6 +92,7 @@ export default function Dashboard() {
           <Link to="/contests">Contests</Link>
           <Link to="/problems">Problems</Link>
           <Link to="/topics">Topics</Link>
+          <Link to="/practice">Practice</Link>
         </nav>
 
         {/* Theme toggle + user menu */}

@@ -1,0 +1,251 @@
+/* ProblemSolve.css — refined light/dark styling */
+
+/* ===== Theme tokens ===== */
+:root {
+  --bg: #f7f8fb;
+  --fg: #181a22;
+  --muted: #5c6272;
+
+  --card-bg: #ffffff;
+  --card-border: #e6e8ef;
+  --card-shadow: 0 6px 24px rgba(18, 22, 33, 0.06);
+
+  --accent: #6c8cff;
+  --accent-weak: rgba(108, 140, 255, 0.18);
+
+  --code-bg: #f2f4f8;
+  --code-border: #e5e9f2;
+
+  --table-border: #e5e9f2;
+
+  --btn-bg: #111827;
+  --btn-fg: #ffffff;
+  --btn-ghost-bg: transparent;
+  --btn-ghost-fg: var(--fg);
+  --btn-ghost-border: #d7dbe6;
+}
+
+/* toggle with body.dark-mode (you already set this in React) */
+body.dark-mode {
+  --bg: #0f1117;
+  --fg: #e9ebf1;
+  --muted: #9aa3b2;
+
+  --card-bg: #151823;
+  --card-border: #252a3b;
+  --card-shadow: 0 12px 30px rgba(0,0,0,0.35);
+
+  --accent: #8ca2ff;
+  --accent-weak: rgba(140, 162, 255, 0.18);
+
+  --code-bg: #0f1320;
+  --code-border: #252a3b;
+
+  --table-border: #2a2f40;
+
+  --btn-bg: #2b3250;
+  --btn-fg: #e9ebf1;
+  --btn-ghost-bg: rgba(255,255,255,0.04);
+  --btn-ghost-fg: var(--fg);
+  --btn-ghost-border: #2a3248;
+}
+
+/* ===== Page base ===== */
+.problems-page {
+  color: var(--fg);
+}
+
+/* ===== Cards ===== */
+.statement-card,
+.runner-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 16px 0;
+  box-shadow: var(--card-shadow);
+}
+
+/* ===== Header row in statement ===== */
+.stm-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.stm-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+}
+
+/* Actions (links/buttons on the right) */
+.stm-actions a,
+.runner-actions .btn,
+.runner-actions .btn.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform .05s ease, background .2s ease, border-color .2s ease;
+  cursor: pointer;
+}
+.stm-actions a {
+  background: var(--accent-weak);
+  color: var(--accent);
+  border-color: transparent;
+}
+.stm-actions a:hover { transform: translateY(-1px); }
+
+/* Generic buttons for runner actions */
+.runner-actions .btn {
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border-color: transparent;
+}
+.runner-actions .btn.ghost {
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-fg);
+  border-color: var(--btn-ghost-border);
+}
+.runner-actions .btn:hover { transform: translateY(-1px); }
+
+/* ===== Meta pills under title ===== */
+.stm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 6px 0 14px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.stm-meta span {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+/* ===== Statement HTML (from CF) ===== */
+.stm-html {
+  line-height: 1.7;
+  font-size: 1rem;
+  color: var(--fg);
+}
+.stm-html p { margin: 0.6rem 0; }
+.stm-html a { color: var(--accent); text-decoration: underline; }
+
+/* Force CF content to adopt app colors without nuking layout */
+.stm-html, .stm-html * {
+  color: inherit;
+  background: transparent;
+}
+
+/* Images */
+.stm-html img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tables */
+.stm-html table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--table-border);
+}
+.stm-html th, .stm-html td {
+  border-top: 1px solid var(--table-border);
+  border-left: 1px solid var(--table-border);
+  padding: 10px 12px;
+  vertical-align: top;
+}
+.stm-html th { background: var(--code-bg); }
+
+/* Code blocks (statement & samples) */
+.stm-html pre,
+.samples-box pre {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  padding: 12px 14px;
+  border-radius: 10px;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0.4rem 0;
+}
+
+/* MathJax should inherit the current color */
+.mjx-container * { color: inherit; }
+
+/* ===== Samples section ===== */
+.samples-box { margin-top: 18px; }
+.samples-box h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+.samples-box .s-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0;
+}
+.samples-box .lbl {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+.s-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.s-actions .btn,
+.s-actions .btn.ghost {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--btn-ghost-border);
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-fg);
+}
+.s-actions .btn:hover { transform: translateY(-1px); }
+
+/* ===== Runner card ===== */
+.runner-card h3 {
+  margin: 2px 0 10px;
+  font-size: 1.05rem;
+}
+.runner-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===== Info / error states ===== */
+.state.muted {
+  color: var(--muted);
+}
+.state.error {
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+/* ===== Responsiveness ===== */
+@media (max-width: 900px) {
+  .stm-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .stm-actions a { width: fit-content; }
+}
+@media (max-width: 720px) {
+  .samples-box .s-row { grid-template-columns: 1fr; }
+}
