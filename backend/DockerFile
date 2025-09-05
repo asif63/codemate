@@ -18,3 +18,5 @@ EXPOSE 5000
 
 # Run migrations (or push) then start the server
 CMD ["sh", "-c", "npx prisma migrate deploy || npx prisma db push; node index.js"]
+
+#fix name of file to Dockerfile
