@@ -16,6 +16,7 @@ const app = express();
 const prisma = new PrismaClient();
 
 app.use(cors());
+app.use(cors({ origin: true}));
 app.use(express.json());
 app.use("/api/judge", judgeRouter);
 app.use("/api/cf", cfRouter);
