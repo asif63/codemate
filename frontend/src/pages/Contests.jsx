@@ -6,14 +6,10 @@ import ContestCard from './ContestCard';
 import '../styles/Contests.css';
 import { API_BASE } from '../lib/apiBase';
 
-// choose proxy paths in dev, backend paths in prod
-const CC_URL = import.meta.env.DEV ? '/api/codechef' : `${API_BASE}/api/codechef`;
-const LC_URL = import.meta.env.DEV ? '/api/leetcode' : `${API_BASE}/api/leetcode`;
-
 export default function Contests() {
   const navigate = useNavigate();
 
-  // --- theme (same behavior as Dashboard) ---
+  // theme
   const getInitialDark = () => {
     const saved = localStorage.getItem('darkMode');
     if (saved !== null) return JSON.parse(saved);
@@ -25,18 +21,22 @@ export default function Contests() {
     localStorage.setItem('darkMode', JSON.stringify(isDark));
   }, [isDark]);
 
-  // --- data ---
+  // data
   const [all, setAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState('');
   const [platforms, setPlatforms] = useState({ cf: true, cc: true, lc: true });
+
+  // build URLs
+  const CC_URL = import.meta.env.DEV ? '/api/codechef' : `${API_BASE}/api/codechef`;
+  const LC_URL = import.meta.env.DEV ? '/api/leetcode' : `${API_BASE}/api/leetcode`;
 
   useEffect(() => {
     let mounted = true;
     const load = async () => {
       setLoading(true);
       try {
-        // Codeforces (public API)
+        // Codeforces direct
         const cfRes = await fetch('https://codeforces.com/api/contest.list');
         const cfJson = await cfRes.json();
         const cf = (cfJson.result || [])
@@ -49,7 +49,7 @@ export default function Contests() {
             url: `https://codeforces.com/contest/${c.id}`,
           }));
 
-        // CodeChef (dev via Vite proxy; prod via backend)
+        // CodeChef via backend/proxy
         const ccRes = await fetch(CC_URL);
         const ccJson = await ccRes.json();
         const cc = (ccJson.future_contests || []).map(c => ({
@@ -60,7 +60,7 @@ export default function Contests() {
           url: `https://www.codechef.com/${c.contest_code}`,
         }));
 
-        // LeetCode (dev via Vite proxy; prod via backend)
+        // LeetCode via backend/proxy
         const lcRes = await fetch(LC_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -81,7 +81,7 @@ export default function Contests() {
         const lc = (lcJson?.data?.allContests || [])
           .filter(c => c.startTime * 1000 > Date.now())
           .sort((a, b) => a.startTime - b.startTime)
-          .slice(0, 2)
+          .slice(0, 25)
           .map(c => ({
             id: `lc-${c.titleSlug}`,
             platform: 'lc',
@@ -119,14 +119,8 @@ export default function Contests() {
 
   return (
     <>
-      {/* Top bar: back, centered brand, theme toggle on right */}
       <header className="cm-topbar">
-        <button
-          className="cm-back"
-          onClick={() => navigate(-1)}
-          aria-label="Go back"
-          title="Go back"
-        >
+        <button className="cm-back" onClick={() => navigate(-1)} aria-label="Go back">
           <FaArrowLeft />
         </button>
         <div className="cm-brand">CodeMate</div>

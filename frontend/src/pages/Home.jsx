@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/Home.css";
 import ContestCard from "../pages/ContestCard";
-import { API_BASE } from "../lib/apiBase";
+import { API_BASE } from "../lib/apiBase"; // <-- use our helper
 
 export default function Home() {
   const [cards, setCards] = useState([]);
 
-  // --- Dark mode ---
+  // Dark mode
   const getInitialMode = () => {
     const savedMode = localStorage.getItem("darkMode");
     if (savedMode !== null) return JSON.parse(savedMode);
@@ -23,10 +23,12 @@ export default function Home() {
   }, [darkMode]);
 
   const toggleDarkMode = () => setDarkMode(m => !m);
+
+  // Build URLs: dev uses Vite proxy; prod uses backend base
   const CC_URL = import.meta.env.DEV ? "/api/codechef" : `${API_BASE}/api/codechef`;
   const LC_URL = import.meta.env.DEV ? "/api/leetcode" : `${API_BASE}/api/leetcode`;
 
-  // --- Upcoming contests (unchanged) ---
+  // Upcoming contests
   useEffect(() => {
     const cf = axios
       .get("https://codeforces.com/api/contest.list")
@@ -53,6 +55,8 @@ export default function Home() {
           url: `https://www.codechef.com/${c.contest_code}`,
         }))
         .filter((c) => c.startTime > Date.now())
+        .sort((a, b) => a.startTime - b.startTime)
+        .slice(0, 2)
     );
 
     const lc = axios
@@ -83,7 +87,10 @@ export default function Home() {
 
     Promise.all([cf, cc, lc])
       .then(([cfList, ccList, lcList]) => setCards([...cfList, ...ccList, ...lcList]))
-      .catch(console.error);
+      .catch((e) => {
+        console.error("Home contests failed:", e);
+        setCards([]); // show empty gracefully
+      });
   }, []);
 
   return (
@@ -134,16 +141,14 @@ export default function Home() {
             {cards.map((c) => (
               <ContestCard key={c.id} name={c.name} startTime={c.startTime} url={c.url} />
             ))}
+            {cards.length === 0 && <div className="muted">No contests to show.</div>}
           </div>
         </section>
       </main>
 
-      {/* NEW Footer */}
-           {/* Footer (minimal) */}
       <footer className="home-footer">
-        <div className="footer-center">© CodeMate 2025</div>
+        <div className="footer-center">© CodeMate {new Date().getFullYear()}</div>
       </footer>
-
     </div>
   );
 }
