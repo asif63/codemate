@@ -9,6 +9,7 @@ import leetcodeProxy from "./routes/leetcodeProxy.js";
 import judgeRouter from "./routes/judge.js";
 import cfRouter from "./routes/cf.js";
 import cf2Router from "./routes/cf2_browser.js";
+import codechefRouter from "./routes/codechef.js";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/api/cf2", cf2Router);
 // ----- Routers you already had -----
 app.use("/api/stats", statsRouter);
 app.use("/api/leetcode", leetcodeProxy);
+app.use("/api/codechef", codechefRouter);
 
 
 // ----- Auth helper -----

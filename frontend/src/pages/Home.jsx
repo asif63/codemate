@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/Home.css";
 import ContestCard from "../pages/ContestCard";
+import { API_BASE } from "../lib/apiBase";
 
 export default function Home() {
   const [cards, setCards] = useState([]);
@@ -22,6 +23,8 @@ export default function Home() {
   }, [darkMode]);
 
   const toggleDarkMode = () => setDarkMode(m => !m);
+  const CC_URL = import.meta.env.DEV ? "/api/codechef" : `${API_BASE}/api/codechef`;
+  const LC_URL = import.meta.env.DEV ? "/api/leetcode" : `${API_BASE}/api/leetcode`;
 
   // --- Upcoming contests (unchanged) ---
   useEffect(() => {
@@ -41,7 +44,7 @@ export default function Home() {
           .slice(0, 2)
       );
 
-    const cc = axios.get("/api/codechef").then((res) =>
+    const cc = axios.get(CC_URL).then((res) =>
       (res.data.future_contests || [])
         .map((c) => ({
           id: `cc-${c.contest_code}`,
@@ -53,7 +56,7 @@ export default function Home() {
     );
 
     const lc = axios
-      .post("/api/leetcode", {
+      .post(LC_URL, {
         query: `
           query {
             allContests {

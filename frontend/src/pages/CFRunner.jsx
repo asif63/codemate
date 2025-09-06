@@ -1,10 +1,10 @@
 // src/pages/CFRunner.jsx
 import React, { useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { API_BASE } from '../lib/apiBase';
 
 // Normalize API base: prefer VITE_API_BASE, fall back to localhost
-const RAW_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
-const API_BASE = RAW_BASE.replace(/\/$/, ''); // strip trailing slash
+
 
 export default function CFRunner() {
   const { contestId, index } = useParams();

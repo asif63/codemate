@@ -4,9 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import CodeRunner from '../pages/CFRunner';
 import '../styles/ProblemsPage.css';
+import { API_BASE } from '../lib/apiBase';
 
 // Talk to backend directly (bypass Vite proxy). Set VITE_API_BASE in .env if needed.
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+
 
 export default function PracticeSolve() {
   const navigate = useNavigate();

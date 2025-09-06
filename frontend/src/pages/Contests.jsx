@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import ContestCard from './ContestCard';
 import '../styles/Contests.css';
+import { API_BASE } from '../lib/apiBase';
+
+// choose proxy paths in dev, backend paths in prod
+const CC_URL = import.meta.env.DEV ? '/api/codechef' : `${API_BASE}/api/codechef`;
+const LC_URL = import.meta.env.DEV ? '/api/leetcode' : `${API_BASE}/api/leetcode`;
 
 export default function Contests() {
   const navigate = useNavigate();
@@ -31,7 +36,7 @@ export default function Contests() {
     const load = async () => {
       setLoading(true);
       try {
-        // Codeforces
+        // Codeforces (public API)
         const cfRes = await fetch('https://codeforces.com/api/contest.list');
         const cfJson = await cfRes.json();
         const cf = (cfJson.result || [])
@@ -44,8 +49,8 @@ export default function Contests() {
             url: `https://codeforces.com/contest/${c.id}`,
           }));
 
-        // CodeChef (dev via proxy; prod should go through backend)
-        const ccRes = await fetch('/api/codechef');
+        // CodeChef (dev via Vite proxy; prod via backend)
+        const ccRes = await fetch(CC_URL);
         const ccJson = await ccRes.json();
         const cc = (ccJson.future_contests || []).map(c => ({
           id: `cc-${c.contest_code}`,
@@ -55,8 +60,8 @@ export default function Contests() {
           url: `https://www.codechef.com/${c.contest_code}`,
         }));
 
-        // LeetCode (dev via proxy; prod through backend)
-        const lcRes = await fetch('/api/leetcode', {
+        // LeetCode (dev via Vite proxy; prod via backend)
+        const lcRes = await fetch(LC_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -76,7 +81,7 @@ export default function Contests() {
         const lc = (lcJson?.data?.allContests || [])
           .filter(c => c.startTime * 1000 > Date.now())
           .sort((a, b) => a.startTime - b.startTime)
-          .slice(0, 25)
+          .slice(0, 2)
           .map(c => ({
             id: `lc-${c.titleSlug}`,
             platform: 'lc',
