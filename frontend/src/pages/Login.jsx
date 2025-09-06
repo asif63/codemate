@@ -1,9 +1,11 @@
+// src/pages/Login.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/AuthForm.css";
+import { API_BASE } from "../lib/apiBase.js";
 
-const API = import.meta.env.VITE_API_BASE || "http://localhost:5000";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,13 +22,13 @@ export default function Login() {
   useEffect(() => {
     const saved = localStorage.getItem("rememberEmail");
     if (saved) {
-      setFormData(f => ({ ...f, email: saved }));
+      setFormData((f) => ({ ...f, email: saved }));
       setRemember(true);
     }
   }, []);
 
   const handleChange = (e) =>
-    setFormData(f => ({ ...f, [e.target.name]: e.target.value }));
+    setFormData((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,31 +37,39 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API}/api/login`, {
+      const res = await fetch(`${API_BASE}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
+
+      // Try to parse JSON safely (in case of HTML error pages)
+      let data = null;
+      const text = await res.text();
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { message: text || "Unexpected server response" };
+      }
 
       if (!res.ok) {
-        setMessage(data.message || "Login failed");
+        setMessage(data?.message || "Login failed");
         setIsError(true);
-        setLoading(false);
         return;
       }
 
       if (remember) localStorage.setItem("rememberEmail", formData.email);
       else localStorage.removeItem("rememberEmail");
 
-      localStorage.setItem("token", data.token);
+      if (data?.token) localStorage.setItem("token", data.token);
+
       setMessage("✅ Login successful!");
       setIsError(false);
 
-      setTimeout(() => navigate("/dashboard"), 900);
+      setTimeout(() => navigate("/dashboard"), 700);
     } catch (err) {
       console.error("Login error:", err);
-      setMessage("Something went wrong. Try again.");
+      setMessage("Network error. Please try again.");
       setIsError(true);
     } finally {
       setLoading(false);
@@ -112,7 +122,7 @@ export default function Login() {
               <button
                 type="button"
                 className="toggle-password"
-                onClick={() => setShowPassword(p => !p)}
+                onClick={() => setShowPassword((p) => !p)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 title={showPassword ? "Hide password" : "Show password"}
               >
@@ -121,17 +131,18 @@ export default function Login() {
             </div>
           </label>
 
-          {/* <div className="row-between">
+          {/* If you want remember-me back, uncomment this block
+          <div className="row-between">
             <label className="inline">
               <input
                 type="checkbox"
                 checked={remember}
-                onChange={e => setRemember(e.target.checked)}
+                onChange={(e) => setRemember(e.target.checked)}
               />
               Remember me
             </label>
-            <span className="muted-link" role="link" tabIndex={0}>Forgot password?</span>
-          </div> */}
+          </div>
+          */}
 
           <button type="submit" className="submit-btn" disabled={loading}>
             {loading ? "Signing in…" : "Login"}
@@ -151,7 +162,7 @@ export default function Login() {
       </div>
 
       {/* Footer */}
-      <footer className="page-footer">© 2025 CodeMate</footer>
+      <footer className="page-footer">© {new Date().getFullYear()} CodeMate</footer>
     </div>
   );
 }
